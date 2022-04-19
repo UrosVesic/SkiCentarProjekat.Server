@@ -7,6 +7,7 @@ package rs.ac.bg.fon.np.sc.server.forme;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
+import rs.ac.bg.fon.np.sc.server.kontroler.Kontroler;
 
 /**
  *
@@ -21,6 +22,8 @@ public class ServerskaForma extends javax.swing.JFrame {
     public ServerskaForma() {
         initComponents();
         btnZaustavi.setEnabled(false);
+        Kontroler.getInstanca().setServerskaForma(this);
+        Kontroler.getInstanca().pripremiTabelu();
     }
 
     /**

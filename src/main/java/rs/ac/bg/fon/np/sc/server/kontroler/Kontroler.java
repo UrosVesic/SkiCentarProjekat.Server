@@ -5,6 +5,9 @@
  */
 package rs.ac.bg.fon.np.sc.server.kontroler;
 
+import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
+import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
+
 /**
  *
  * @author UrosVesic
@@ -12,15 +15,27 @@ package rs.ac.bg.fon.np.sc.server.kontroler;
 public class Kontroler {
 
     private static Kontroler instanca;
+    ServerskaForma serverskaForma;
 
     private Kontroler() {
 
     }
+
+    public void setServerskaForma(ServerskaForma serverskaForma) {
+        this.serverskaForma = serverskaForma;
+    }
+    
+    
 
     public static Kontroler getInstanca() {
         if (instanca == null) {
             instanca = new Kontroler();
         }
         return instanca;
+    }
+
+    public void pripremiTabelu() {
+        ModelTabeleKorisnik model = new ModelTabeleKorisnik();
+        serverskaForma.getTblKorisnici().setModel(model);
     }
 }
