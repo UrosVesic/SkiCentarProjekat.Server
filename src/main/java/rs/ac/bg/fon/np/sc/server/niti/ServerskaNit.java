@@ -35,7 +35,7 @@ public class ServerskaNit extends Thread {
                 k.start();
                 klijentskeNiti.add(k);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                
             }
         }
         zaustaviKlijentskeNiti();

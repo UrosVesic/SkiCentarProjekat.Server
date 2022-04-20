@@ -68,4 +68,12 @@ public class Kontroler {
         }
 
     }
+
+    public void zaustaviServer() throws IOException {
+        serverskaNit.zaustavi();
+        serverskaForma.getLblStatusServera().setText("Server je zaustavljen");
+        serverskaForma.getLblStatusServera().setForeground(Color.red);
+        serverskaForma.getBtnPokreni().setEnabled(true);
+        serverskaForma.getBtnZaustavi().setEnabled(false);
+    }
 }

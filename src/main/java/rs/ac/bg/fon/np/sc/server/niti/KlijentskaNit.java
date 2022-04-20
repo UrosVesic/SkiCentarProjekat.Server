@@ -10,10 +10,10 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Odgovor;
-import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Posiljalac;
-import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Primalac;
-import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Zahtev;
+import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
+import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
+import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Primalac;
+import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Zahtev;
 
 /**
  *

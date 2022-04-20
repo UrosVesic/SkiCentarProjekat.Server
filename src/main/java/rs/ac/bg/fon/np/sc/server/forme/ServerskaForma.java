@@ -6,8 +6,6 @@
 package rs.ac.bg.fon.np.sc.server.forme;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -131,7 +129,13 @@ public class ServerskaForma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnZaustaviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaustaviActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            Kontroler.getInstanca().zaustaviServer();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Neuspesno zaustavljanje servera: "+ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+           ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnZaustaviActionPerformed
 
     private void btnPokreniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniActionPerformed
@@ -140,7 +144,7 @@ public class ServerskaForma extends javax.swing.JFrame {
 
             Kontroler.getInstanca().pokreniServer();
         } catch (IOException ex) {
-           JOptionPane.showMessageDialog(this, "Neuspesno pokretanje servera", "Greska", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, "Neuspesno pokretanje servera: "+ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnPokreniActionPerformed
