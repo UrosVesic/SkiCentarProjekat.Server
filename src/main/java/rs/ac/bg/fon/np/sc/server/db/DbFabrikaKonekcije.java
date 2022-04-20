@@ -7,13 +7,11 @@ package rs.ac.bg.fon.np.sc.server.db;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  *
