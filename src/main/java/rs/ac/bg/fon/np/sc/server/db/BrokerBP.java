@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 
 /**
  *
@@ -37,10 +37,10 @@ public class BrokerBP {
 
     public OpstiDomenskiObjekat zapamtiSlog(OpstiDomenskiObjekat odo) throws Exception {
         String upit;
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement();) {
             upit = "INSERT INTO " + odo.vratiImeKlase()
                     + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
-            konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
             statement.executeUpdate(upit, Statement.RETURN_GENERATED_KEYS);
             ResultSet rsId = statement.getGeneratedKeys();
             if (rsId.next()) {
@@ -56,9 +56,9 @@ public class BrokerBP {
     }
 
     public void promeniSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "UPDATE " + odo.vratiImeKlase() + " SET " + odo.postaviVrednostiAtributa() + " WHERE " + odo.vratiUslovZaPromeniSlog();
-            konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
             if (statement.executeUpdate(upit) == 0) {
                 throw new Exception("Ne postoji slog za promenu u bazi");
             }
@@ -69,9 +69,9 @@ public class BrokerBP {
     }
 
     public void obrisiSlog(OpstiDomenskiObjekat odo) throws Exception {
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "DELETE FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
             if (statement.executeUpdate(upit) == 0) {
                 throw new Exception("Ne postoji slog za brisanje u bazi");
             }
@@ -81,10 +81,10 @@ public class BrokerBP {
 
     }
 
-    public OpstiDomenskiObjekat pronadjiSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+    public void pronadjiSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
             ResultSet rs = statement.executeQuery(upit);
             if (rs.next()) {
                 odo.napuni(rs);
@@ -100,13 +100,12 @@ public class BrokerBP {
             ex.printStackTrace();
             throw ex;
         }
-        return odo;
     }
 
     public boolean daLiPostojiSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
-        try (Statement statement = konekcija.createStatement()){
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
+        try (Statement statement = konekcija.createStatement()) {
             String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
             ResultSet rs = statement.executeQuery(upit);
             return rs.next();
         } catch (SQLException ex) {

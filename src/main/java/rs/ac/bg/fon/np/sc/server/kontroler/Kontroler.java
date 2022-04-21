@@ -15,9 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
+import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
 import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
+import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 
 /**
  *
@@ -28,9 +32,10 @@ public class Kontroler {
     private static Kontroler instanca;
     private ServerskaForma serverskaForma;
     private ServerskaNit serverskaNit;
+    private final BrokerBP b;
 
     private Kontroler() {
-
+        b = new BrokerBP();
     }
 
     public void setServerskaForma(ServerskaForma serverskaForma) {
@@ -75,5 +80,15 @@ public class Kontroler {
         serverskaForma.getLblStatusServera().setForeground(Color.red);
         serverskaForma.getBtnPokreni().setEnabled(true);
         serverskaForma.getBtnZaustavi().setEnabled(false);
+    }
+
+    public void prijaviSe(Korisnik korisnik) throws Exception {
+        OpstaSO so = new PrijaviSeSO(b, korisnik);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void dodajKorisnikaUTabelu(Korisnik trenutniKorisnik) {
+        ModelTabeleKorisnik model = (ModelTabeleKorisnik) serverskaForma.getTblKorisnici().getModel();
+        model.dodaj(trenutniKorisnik);
     }
 }

@@ -36,7 +36,7 @@ public class DbFabrikaKonekcije {
 
         if (konekcija == null || konekcija.isClosed()) {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            try (InputStreamReader in = new InputStreamReader(classloader.getResourceAsStream("server/server.json"))){
+            try (InputStreamReader in = new InputStreamReader(classloader.getResourceAsStream("server/db.json"))){
                 
                 Gson gson = new Gson();
                 
