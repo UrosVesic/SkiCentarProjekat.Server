@@ -1,5 +1,5 @@
 {
-    "url":"jdbc:mysql://localhost:3306/NPprojekat"
-    "username":"root"
+    "url":"jdbc:mysql://localhost:3306/NPprojekat",
+    "username":"root",
     "password":"root"
 }
