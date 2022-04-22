@@ -138,4 +138,32 @@ public class BrokerBP {
         return lista;
     }
 
+    public List<OpstiDomenskiObjekat> pronadjiSlogove(OpstiDomenskiObjekat odo) throws Exception {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
+        int j = 0;
+        try (Statement statement = konekcija.createStatement()) {
+            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlogove();
+            ResultSet rs = statement.executeQuery(upit);
+            while (rs.next()) {
+                OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
+                odo1.napuni(rs);
+                lista.add(odo1);
+                for (int i = 0; i < odo1.vratiBrojVezanihObjekata(); i++) {
+                    OpstiDomenskiObjekat vezo = odo1.vratiVezaniObjekat(i);
+                    pronadjiSlog(vezo);
+                    odo1.postaviVrednostVezanogObjekta(vezo, i);
+                }
+                j++;
+            }
+            if (j == 0) {
+                throw new Exception();
+            }
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return lista;
+    }
+
 }
