@@ -40,9 +40,9 @@ public class BrokerBP {
     public OpstiDomenskiObjekat zapamtiSlog(OpstiDomenskiObjekat odo) throws Exception {
         String upit;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
-        try (Statement statement = konekcija.createStatement();) {
+        try (Statement statement = konekcija.createStatement()) {
             upit = "INSERT INTO " + odo.vratiImeKlase()
-                    + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
+                    + "(" + odo.vratiImenaAtrubita() + ")" + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
             statement.executeUpdate(upit, Statement.RETURN_GENERATED_KEYS);
             ResultSet rsId = statement.getGeneratedKeys();
             if (rsId.next()) {

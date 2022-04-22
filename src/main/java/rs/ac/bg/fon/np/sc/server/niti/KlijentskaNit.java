@@ -6,13 +6,16 @@
 package rs.ac.bg.fon.np.sc.server.niti;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rs.ac.bg.fon.np.sc.commonLib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
@@ -65,6 +68,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.UCITAJ_LISTU_SKI_CENTARA:
                 odgovor = ucitajListuSkiCentara(zahtev);
                 break;
+            case Operacije.ZAPAMTI_SKI_CENTAR:
+                odgovor = zapamtiSkiCentar(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -97,6 +103,23 @@ public class KlijentskaNit extends Thread {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuSkiCentara();
             rezultat = new Gson().toJson(lista);
             odgovor.setRezultat(rezultat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiKarta skiKarta = new Gson().fromJson(objekat, SkiKarta.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiSkiKartuSO(skiKarta);
+            objekat = new Gson().toJson(skiKarta);
+            odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
             odgovor.setUspesno(false);

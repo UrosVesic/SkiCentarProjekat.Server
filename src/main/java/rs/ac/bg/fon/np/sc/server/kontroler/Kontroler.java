@@ -19,6 +19,7 @@ import java.util.List;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
@@ -26,6 +27,7 @@ import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
 
 /**
  *
@@ -100,5 +102,10 @@ public class Kontroler {
         OpstaSO so = new UcitajListuSkiCentaraSO(b, new SkiCentar());
         so.opsteIzvrsenjeSo();
         return so.getLista();
+    }
+
+    public void zapamtiSkiKartuSO(SkiKarta skiKarta) throws Exception {
+        OpstaSO so = new ZapamtiSkiKartuSO(b, skiKarta);
+        so.opsteIzvrsenjeSo();
     }
 }
