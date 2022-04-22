@@ -25,6 +25,7 @@ import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
 import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiKarteSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
@@ -107,5 +108,11 @@ public class Kontroler {
     public void zapamtiSkiKartuSO(SkiKarta skiKarta) throws Exception {
         OpstaSO so = new ZapamtiSkiKartuSO(b, skiKarta);
         so.opsteIzvrsenjeSo();
+    }
+
+    public List<OpstiDomenskiObjekat> pretraziSkiKarte(SkiKarta skiKarta) throws Exception {
+        OpstaSO so = new PretraziSkiKarteSO(b, skiKarta);
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
     }
 }

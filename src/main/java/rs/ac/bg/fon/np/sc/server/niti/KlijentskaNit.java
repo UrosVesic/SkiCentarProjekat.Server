@@ -8,11 +8,12 @@ package rs.ac.bg.fon.np.sc.server.niti;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonLib.domen.VrstaSkiKarte;
+import rs.ac.bg.fon.np.sc.commonlib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
@@ -71,6 +72,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.ZAPAMTI_SKI_CENTAR:
                 odgovor = zapamtiSkiCentar(zahtev);
                 break;
+            case Operacije.PRETRAZI_SKI_KARTE:
+                odgovor = pretraziSkiKarte(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -119,6 +123,23 @@ public class KlijentskaNit extends Thread {
         try {
             Kontroler.getInstanca().zapamtiSkiKartuSO(skiKarta);
             objekat = new Gson().toJson(skiKarta);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor pretraziSkiKarte(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiKarta skiKarta = gson.fromJson(objekat, SkiKarta.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiKarte(skiKarta);
+            objekat = new Gson().toJson(lista);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
