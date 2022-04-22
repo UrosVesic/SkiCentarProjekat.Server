@@ -15,13 +15,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
+import java.util.List;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
 import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 
 /**
  *
@@ -67,7 +71,7 @@ public class Kontroler {
             serverskaForma.getBtnZaustavi().setEnabled(true);
             serverskaForma.getLblStatusServera().setText("Server je pokrenut");
             serverskaForma.getLblStatusServera().setForeground(Color.GREEN);
-        }catch(FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             System.out.println("Ne postoji fajl");
             ex.printStackTrace();
         }
@@ -90,5 +94,11 @@ public class Kontroler {
     public void dodajKorisnikaUTabelu(Korisnik trenutniKorisnik) {
         ModelTabeleKorisnik model = (ModelTabeleKorisnik) serverskaForma.getTblKorisnici().getModel();
         model.dodaj(trenutniKorisnik);
+    }
+
+    public List<OpstiDomenskiObjekat> ucitajListuSkiCentara() throws Exception {
+        OpstaSO so = new UcitajListuSkiCentaraSO(b, new SkiCentar());
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
     }
 }

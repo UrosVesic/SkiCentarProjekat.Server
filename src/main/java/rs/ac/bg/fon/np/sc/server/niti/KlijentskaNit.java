@@ -8,9 +8,11 @@ package rs.ac.bg.fon.np.sc.server.niti;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
@@ -60,6 +62,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.PRIJAVI_SE:
                 odgovor = prijaviSe(zahtev);
                 break;
+            case Operacije.UCITAJ_LISTU_SKI_CENTARA:
+                odgovor = ucitajListuSkiCentara(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -77,6 +82,21 @@ public class KlijentskaNit extends Thread {
             odgovor.setRezultat(objekat);
             trenutniKorisnik = korisnik;
             Kontroler.getInstanca().dodajKorisnikaUTabelu(trenutniKorisnik);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajListuSkiCentara(Zahtev zahtev) {
+        String rezultat;
+        Odgovor odgovor = new Odgovor();
+        try {
+            List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuSkiCentara();
+            rezultat = new Gson().toJson(lista);
+            odgovor.setRezultat(rezultat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
             odgovor.setUspesno(false);

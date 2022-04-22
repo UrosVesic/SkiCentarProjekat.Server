@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 
 /**
@@ -112,6 +114,28 @@ public class BrokerBP {
             ex.printStackTrace();
             throw ex;
         }
+    }
+
+    public List<OpstiDomenskiObjekat> vratiSve(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
+        try (Statement statement = konekcija.createStatement();) {
+            String upit = "SELECT * FROM " + odo.vratiImeKlase();
+            ResultSet rs = statement.executeQuery(upit);
+            while (rs.next()) {
+                OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
+                odo1.napuni(rs);
+                for (int i = 0; i < odo.vratiBrojVezanihObjekata(); i++) {
+                    pronadjiSlog(odo1.vratiVezaniObjekat(i));
+                }
+
+                lista.add(odo1);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return lista;
     }
 
 }
