@@ -20,15 +20,20 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
 import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiKarteSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PretraziStazeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiStazuSO;
 
 /**
  *
@@ -114,5 +119,26 @@ public class Kontroler {
         OpstaSO so = new PretraziSkiKarteSO(b, skiKarta);
         so.opsteIzvrsenjeSo();
         return so.getLista();
+    }
+
+    public void zapamtiStazu(Staza staza) throws Exception {
+        OpstaSO so = new ZapamtiStazuSO(b, staza);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public List<OpstiDomenskiObjekat> pretraziStaze(Staza staza) throws Exception {
+        OpstaSO so = new PretraziStazeSO(b, staza);
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
+    }
+
+    public void ucitajStazu(Staza staza) throws Exception {
+        OpstaSO so = new UcitajStazuSO(b, staza);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void promeniStazu(Staza staza) throws Exception {
+        OpstaSO so = new PromeniStazuSO(b, staza);
+        so.opsteIzvrsenjeSo();
     }
 }

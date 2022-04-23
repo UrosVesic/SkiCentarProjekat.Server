@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 import rs.ac.bg.fon.np.sc.commonlib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
@@ -74,6 +76,18 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.PRETRAZI_SKI_KARTE:
                 odgovor = pretraziSkiKarte(zahtev);
+                break;
+            case Operacije.ZAPAMTI_STAZU:
+                odgovor = zapamtiStazu(zahtev);
+                break;
+            case Operacije.PRETRAZI_STAZE:
+                odgovor = pretraziStaze(zahtev);
+                break;
+            case Operacije.UCITAJ_STAZU:
+                odgovor = ucitajStazu(zahtev);
+                break;
+            case Operacije.PROMENI_STAZU:
+                odgovor = promeniStazu(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -140,6 +154,76 @@ public class KlijentskaNit extends Thread {
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiKarte(skiKarta);
             objekat = new Gson().toJson(lista);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiStazu(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Staza staza = new Gson().fromJson(objekat, Staza.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiStazu(staza);
+            objekat = new Gson().toJson(staza);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor pretraziStaze(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
+        Staza staza = new Staza();
+        staza.setSkiCentar(skiCentar);
+        Odgovor odgovor = new Odgovor();
+        try {
+            List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziStaze(staza);
+            objekat = new Gson().toJson(lista);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajStazu(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Staza staza = new Gson().fromJson(objekat, Staza.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().ucitajStazu(staza);
+            objekat = new Gson().toJson(staza);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor promeniStazu(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Staza staza = new Gson().fromJson(objekat, Staza.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().promeniStazu(staza);
+            objekat = new Gson().toJson(staza);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
