@@ -83,6 +83,12 @@ public class KlijentskaNit extends Thread {
             case Operacije.PRETRAZI_STAZE:
                 odgovor = pretraziStaze(zahtev);
                 break;
+            case Operacije.UCITAJ_STAZU:
+                odgovor = ucitajStazu(zahtev);
+                break;
+            case Operacije.PROMENI_STAZU:
+                odgovor = promeniStazu(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -184,6 +190,40 @@ public class KlijentskaNit extends Thread {
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziStaze(staza);
             objekat = new Gson().toJson(lista);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajStazu(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Staza staza = new Gson().fromJson(objekat, Staza.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().ucitajStazu(staza);
+            objekat = new Gson().toJson(staza);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor promeniStazu(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Staza staza = new Gson().fromJson(objekat, Staza.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().promeniStazu(staza);
+            objekat = new Gson().toJson(staza);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
