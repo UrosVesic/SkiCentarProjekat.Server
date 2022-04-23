@@ -29,7 +29,9 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiKarteSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziStazeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiStazuSO;
 
@@ -128,5 +130,15 @@ public class Kontroler {
         OpstaSO so = new PretraziStazeSO(b, staza);
         so.opsteIzvrsenjeSo();
         return so.getLista();
+    }
+
+    public void ucitajStazu(Staza staza) throws Exception {
+        OpstaSO so = new UcitajStazuSO(b, staza);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void promeniStazu(Staza staza) throws Exception {
+        OpstaSO so = new PromeniStazuSO(b, staza);
+        so.opsteIzvrsenjeSo();
     }
 }
