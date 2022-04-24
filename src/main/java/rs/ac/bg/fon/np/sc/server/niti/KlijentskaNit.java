@@ -6,14 +6,11 @@
 package rs.ac.bg.fon.np.sc.server.niti;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonlib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
@@ -72,8 +69,8 @@ public class KlijentskaNit extends Thread {
             case Operacije.UCITAJ_LISTU_SKI_CENTARA:
                 odgovor = ucitajListuSkiCentara(zahtev);
                 break;
-            case Operacije.ZAPAMTI_SKI_CENTAR:
-                odgovor = zapamtiSkiCentar(zahtev);
+            case Operacije.ZAPAMTI_SKI_KARTU:
+                odgovor = zapamtiSkiKartu(zahtev);
                 break;
             case Operacije.PRETRAZI_SKI_KARTE:
                 odgovor = pretraziSkiKarte(zahtev);
@@ -92,6 +89,15 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.ZAPAMTI_ZICARU:
                 odgovor = zapamtiZicaru(zahtev);
+                break;
+            case Operacije.ZAPAMTI_SKI_CENTAR:
+                odgovor = zapamtiSkiCentar(zahtev);
+                break;
+            case Operacije.PRETRAZI_SKI_CENTAR:
+                odgovor = pretarziSkiCentar(zahtev);
+                break;
+            case Operacije.PROMENI_SKI_CENTAR:
+                odgovor = promeniSkiCentar(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -133,7 +139,7 @@ public class KlijentskaNit extends Thread {
         return odgovor;
     }
 
-    private Odgovor zapamtiSkiCentar(Zahtev zahtev) {
+    private Odgovor zapamtiSkiKartu(Zahtev zahtev) {
         Gson gson = new Gson();
         String objekat = zahtev.getParametar();
         SkiKarta skiKarta = new Gson().fromJson(objekat, SkiKarta.class);
@@ -245,6 +251,57 @@ public class KlijentskaNit extends Thread {
         try {
             Kontroler.getInstanca().zapamtiZicaru(zicara);
             objekat = new Gson().toJson(zicara);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = new Gson().fromJson(objekat, SkiCentar.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiSkiCentar(skiCentar);
+            objekat = new Gson().toJson(skiCentar);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor pretarziSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().pretraziSkiCentar(skiCentar);
+            objekat = new Gson().toJson(skiCentar);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor promeniSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = new Gson().fromJson(objekat, SkiCentar.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().promeniSkiCentar(skiCentar);
+            objekat = new Gson().toJson(skiCentar);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {

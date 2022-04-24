@@ -27,12 +27,15 @@ import rs.ac.bg.fon.np.sc.server.forme.ServerskaForma;
 import rs.ac.bg.fon.np.sc.server.modelitabela.ModelTabeleKorisnik;
 import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiKarteSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziStazeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiZicaruSO;
@@ -146,6 +149,21 @@ public class Kontroler {
 
     public void zapamtiZicaru(Zicara zicara) throws Exception {
         OpstaSO so = new ZapamtiZicaruSO(b, zicara);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void zapamtiSkiCentar(SkiCentar skiCentar) throws Exception {
+        OpstaSO so = new ZapamtiSkiCentarSO(b, skiCentar);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void pretraziSkiCentar(SkiCentar skiCentar) throws Exception {
+        OpstaSO so = new PretraziSkiCentarSO(b, skiCentar);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void promeniSkiCentar(SkiCentar skiCentar) throws Exception {
+        OpstaSO so = new PromeniSkiCentarSO(b, skiCentar);
         so.opsteIzvrsenjeSo();
     }
 }
