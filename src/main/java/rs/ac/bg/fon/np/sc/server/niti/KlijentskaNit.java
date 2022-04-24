@@ -19,6 +19,7 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
+import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
@@ -88,6 +89,9 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.PROMENI_STAZU:
                 odgovor = promeniStazu(zahtev);
+                break;
+            case Operacije.ZAPAMTI_ZICARU:
+                odgovor = zapamtiZicaru(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -224,6 +228,23 @@ public class KlijentskaNit extends Thread {
         try {
             Kontroler.getInstanca().promeniStazu(staza);
             objekat = new Gson().toJson(staza);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiZicaru(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Zicara zicara = new Gson().fromJson(objekat, Zicara.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiZicaru(zicara);
+            objekat = new Gson().toJson(zicara);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
