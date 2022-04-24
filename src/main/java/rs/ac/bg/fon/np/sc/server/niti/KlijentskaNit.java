@@ -93,6 +93,12 @@ public class KlijentskaNit extends Thread {
             case Operacije.ZAPAMTI_SKI_CENTAR:
                 odgovor = zapamtiSkiCentar(zahtev);
                 break;
+            case Operacije.PRETRAZI_SKI_CENTAR:
+                odgovor = pretarziSkiCentar(zahtev);
+                break;
+            case Operacije.PROMENI_SKI_CENTAR:
+                odgovor = promeniSkiCentar(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -261,6 +267,40 @@ public class KlijentskaNit extends Thread {
         Odgovor odgovor = new Odgovor();
         try {
             Kontroler.getInstanca().zapamtiSkiCentar(skiCentar);
+            objekat = new Gson().toJson(skiCentar);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor pretarziSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().pretraziSkiCentar(skiCentar);
+            objekat = new Gson().toJson(skiCentar);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor promeniSkiCentar(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentar skiCentar = new Gson().fromJson(objekat, SkiCentar.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().promeniSkiCentar(skiCentar);
             objekat = new Gson().toJson(skiCentar);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
