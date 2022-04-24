@@ -8,7 +8,6 @@ package rs.ac.bg.fon.np.sc.server.so.impl;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
-import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 
 /**

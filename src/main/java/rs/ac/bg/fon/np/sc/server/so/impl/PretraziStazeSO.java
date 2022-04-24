@@ -11,7 +11,7 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
  *
- * @author draskovesic
+ * @author UrosVesic
  */
 public class PretraziStazeSO extends OpstaSO {
 
