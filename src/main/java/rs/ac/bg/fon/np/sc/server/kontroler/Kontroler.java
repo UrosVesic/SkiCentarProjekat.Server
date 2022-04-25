@@ -20,6 +20,7 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
@@ -34,9 +35,11 @@ import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiKarataSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiPasSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiZicaruSO;
 
@@ -166,4 +169,15 @@ public class Kontroler {
         OpstaSO so = new PromeniSkiCentarSO(b, skiCentar);
         so.opsteIzvrsenjeSo();
     }
+
+    public List<OpstiDomenskiObjekat> ucitajListuSkiKarata() throws Exception {
+        OpstaSO so = new UcitajListuSkiKarataSO(b, new SkiKarta());
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
+    }
+
+    public void zapamtiSkiPas(SkiPas skiPas) throws Exception {
+        OpstaSO so = new ZapamtiSkiPasSO(b, skiPas);
+        so.opsteIzvrsenjeSo();
+   }
 }
