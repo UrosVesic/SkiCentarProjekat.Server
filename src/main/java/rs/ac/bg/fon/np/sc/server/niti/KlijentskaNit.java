@@ -6,8 +6,12 @@
 package rs.ac.bg.fon.np.sc.server.niti;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +19,7 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
@@ -98,6 +103,12 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.PROMENI_SKI_CENTAR:
                 odgovor = promeniSkiCentar(zahtev);
+                break;
+            case Operacije.UCITAJ_LISTU_SKI_KARATA:
+                odgovor = ucitajListuSkiKarata(zahtev);
+                break;
+            case Operacije.ZAPAMTI_SKI_PAS:
+                odgovor = zapamtiSkiPas(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -302,6 +313,41 @@ public class KlijentskaNit extends Thread {
         try {
             Kontroler.getInstanca().promeniSkiCentar(skiCentar);
             objekat = new Gson().toJson(skiCentar);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajListuSkiKarata(Zahtev zahtev) {
+        String rezultat;
+        Odgovor odgovor = new Odgovor();
+        try {
+            List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuSkiKarata();
+            rezultat = new Gson().toJson(lista);
+            odgovor.setRezultat(rezultat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiSkiPas(Zahtev zahtev) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String objekat = zahtev.getParametar();
+        SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiSkiPas(skiPas);
+            JsonObject obj = new JsonObject();
+            obj.addProperty("sifraSkiPasa", skiPas.getSifraSkiPasa());
+            objekat = new Gson().toJson(obj);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
