@@ -30,6 +30,7 @@ import rs.ac.bg.fon.np.sc.server.niti.ServerskaNit;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiKarteSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiPasoveSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziStazeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiCentarSO;
@@ -180,4 +181,10 @@ public class Kontroler {
         OpstaSO so = new ZapamtiSkiPasSO(b, skiPas);
         so.opsteIzvrsenjeSo();
    }
+
+    public List<OpstiDomenskiObjekat> pretraziSkiPasove(SkiPas skiPas) throws Exception {
+        OpstaSO so = new PretraziSkiPasoveSO(b, skiPas);
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
+    }
 }
