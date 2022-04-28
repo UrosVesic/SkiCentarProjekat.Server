@@ -11,7 +11,6 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -109,6 +108,9 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.ZAPAMTI_SKI_PAS:
                 odgovor = zapamtiSkiPas(zahtev);
+                break;
+            case Operacije.PRETRAZI_SKI_PASOVE:
+                odgovor = pretraziSkiPasove(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -348,6 +350,23 @@ public class KlijentskaNit extends Thread {
             JsonObject obj = new JsonObject();
             obj.addProperty("sifraSkiPasa", skiPas.getSifraSkiPasa());
             objekat = new Gson().toJson(obj);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor pretraziSkiPasove(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiPas skiPas = gson.fromJson(objekat, SkiPas.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiPasove(skiPas);
+            objekat = new Gson().toJson(lista);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
