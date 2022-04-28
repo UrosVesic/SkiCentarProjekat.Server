@@ -22,7 +22,7 @@ public class PrijaviSeSO extends OpstaSO {
 
     @Override
     protected void izvrsiOperaciju() throws Exception {
-        b.pronadjiSlog(odo);
+        b.pronadjiSlogPoKljucu(odo);
     }
 
     @Override

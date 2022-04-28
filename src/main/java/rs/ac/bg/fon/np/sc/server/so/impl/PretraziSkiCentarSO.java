@@ -22,7 +22,7 @@ public class PretraziSkiCentarSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        b.pronadjiSlog(odo);
+        b.pronadjiSlogUnique(odo);
 
     }
 

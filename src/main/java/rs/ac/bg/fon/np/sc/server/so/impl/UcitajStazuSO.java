@@ -21,7 +21,7 @@ public class UcitajStazuSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        b.pronadjiSlog(odo);
+        b.pronadjiSlogPoKljucu(odo);
     }
 
     @Override

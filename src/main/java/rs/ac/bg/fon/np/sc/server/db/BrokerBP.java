@@ -83,7 +83,7 @@ public class BrokerBP {
 
     }
 
-    public void pronadjiSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+    public void pronadjiSlogPoKljucu(OpstiDomenskiObjekat odo) throws SQLException, Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
@@ -92,7 +92,7 @@ public class BrokerBP {
                 odo.napuni(rs);
                 for (int i = 0; i < odo.vratiBrojVezanihObjekata(); i++) {
                     OpstiDomenskiObjekat vezo = odo.vratiVezaniObjekat(i);
-                    pronadjiSlog(vezo);
+                    pronadjiSlogPoKljucu(vezo);
                     odo.postaviVrednostVezanogObjekta(vezo, i);
                 }
             } else {
@@ -126,7 +126,7 @@ public class BrokerBP {
                 OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
                 odo1.napuni(rs);
                 for (int i = 0; i < odo.vratiBrojVezanihObjekata(); i++) {
-                    pronadjiSlog(odo1.vratiVezaniObjekat(i));
+                    pronadjiSlogPoKljucu(odo1.vratiVezaniObjekat(i));
                 }
 
                 lista.add(odo1);
@@ -141,7 +141,6 @@ public class BrokerBP {
     public List<OpstiDomenskiObjekat> pronadjiSlogove(OpstiDomenskiObjekat odo) throws Exception {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
-        int j = 0;
         try (Statement statement = konekcija.createStatement()) {
             String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlogove();
             ResultSet rs = statement.executeQuery(upit);
@@ -151,19 +150,36 @@ public class BrokerBP {
                 lista.add(odo1);
                 for (int i = 0; i < odo1.vratiBrojVezanihObjekata(); i++) {
                     OpstiDomenskiObjekat vezo = odo1.vratiVezaniObjekat(i);
-                    pronadjiSlog(vezo);
+                    pronadjiSlogPoKljucu(vezo);
                     odo1.postaviVrednostVezanogObjekta(vezo, i);
                 }
-                j++;
-            }
-            if (j == 0) {
-                throw new Exception();
             }
 
         } catch (SQLException ex) {
             throw ex;
         }
         return lista;
+    }
+
+    public void pronadjiSlogUnique(OpstiDomenskiObjekat odo) throws Exception {
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
+        try (Statement statement = konekcija.createStatement()) {
+            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog2();
+            ResultSet rs = statement.executeQuery(upit);
+            if (rs.next()) {
+                odo.napuni(rs);
+                for (int i = 0; i < odo.vratiBrojVezanihObjekata(); i++) {
+                    OpstiDomenskiObjekat vezo = odo.vratiVezaniObjekat(i);
+                    pronadjiSlogPoKljucu(vezo);
+                    odo.postaviVrednostVezanogObjekta(vezo, i);
+                }
+            } else {
+                throw new Exception("Slog nije pronadjen\n");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
 }
