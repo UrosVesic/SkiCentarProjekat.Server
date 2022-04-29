@@ -378,13 +378,15 @@ public class KlijentskaNit extends Thread {
     }
 
     private Odgovor ucitajSkiPas(Zahtev zahtev) {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
+        Gson gson = gsonBuilder.create();
         String objekat = zahtev.getParametar();
         SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
         Odgovor odgovor = new Odgovor();
         try {
             Kontroler.getInstanca().ucitajSkiPas(skiPas);
-            objekat = new Gson().toJson(skiPas);
+            gson = gsonBuilder.setDateFormat("MMM dd, yyyy").excludeFieldsWithoutExposeAnnotation().create();
+            objekat = gson.toJson(skiPas);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
