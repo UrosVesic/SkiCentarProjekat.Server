@@ -112,6 +112,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.PRETRAZI_SKI_PASOVE:
                 odgovor = pretraziSkiPasove(zahtev);
                 break;
+            case Operacije.UCITAJ_SKI_PAS:
+                odgovor = ucitajSkiPas(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -347,9 +350,7 @@ public class KlijentskaNit extends Thread {
         Odgovor odgovor = new Odgovor();
         try {
             Kontroler.getInstanca().zapamtiSkiPas(skiPas);
-            JsonObject obj = new JsonObject();
-            obj.addProperty("sifraSkiPasa", skiPas.getSifraSkiPasa());
-            objekat = new Gson().toJson(obj);
+            objekat = gson.toJson(skiPas);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
@@ -367,6 +368,23 @@ public class KlijentskaNit extends Thread {
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiPasove(skiPas);
             objekat = new Gson().toJson(lista);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajSkiPas(Zahtev zahtev) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String objekat = zahtev.getParametar();
+        SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().ucitajSkiPas(skiPas);
+            objekat = new Gson().toJson(skiPas);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
