@@ -115,6 +115,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.UCITAJ_SKI_PAS:
                 odgovor = ucitajSkiPas(zahtev);
                 break;
+            case Operacije.PROMENI_SKI_PAS:
+                odgovor = promeniSkiPas(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -385,6 +388,25 @@ public class KlijentskaNit extends Thread {
         Odgovor odgovor = new Odgovor();
         try {
             Kontroler.getInstanca().ucitajSkiPas(skiPas);
+            gson = gsonBuilder.setDateFormat("MMM dd, yyyy").excludeFieldsWithoutExposeAnnotation().create();
+            objekat = gson.toJson(skiPas);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    public Odgovor promeniSkiPas(Zahtev zahtev) {
+        GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
+        Gson gson = gsonBuilder.create();
+        String objekat = zahtev.getParametar();
+        SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().promeniSkiPas(skiPas);
             gson = gsonBuilder.setDateFormat("MMM dd, yyyy").excludeFieldsWithoutExposeAnnotation().create();
             objekat = gson.toJson(skiPas);
             odgovor.setRezultat(objekat);
