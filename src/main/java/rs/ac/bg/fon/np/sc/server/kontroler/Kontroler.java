@@ -34,6 +34,7 @@ import rs.ac.bg.fon.np.sc.server.so.impl.PretraziSkiPasoveSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PretraziStazeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiCentarSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiPasSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiKarataSO;
@@ -191,6 +192,11 @@ public class Kontroler {
 
     public void ucitajSkiPas(SkiPas skiPas) throws Exception {
         OpstaSO so = new UcitajSkiPasSO(b, skiPas);
+        so.opsteIzvrsenjeSo();
+    }
+
+    public void promeniSkiPas(SkiPas skiPas) throws Exception {
+        OpstaSO so = new PromeniSkiPasSO(b, skiPas);
         so.opsteIzvrsenjeSo();
     }
 }
