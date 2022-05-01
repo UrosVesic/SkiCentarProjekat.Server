@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.List;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
@@ -36,6 +37,7 @@ import rs.ac.bg.fon.np.sc.server.so.impl.PrijaviSeSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniSkiPasSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuKupacaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiKarataSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajSkiPasSO;
@@ -198,5 +200,11 @@ public class Kontroler {
     public void promeniSkiPas(SkiPas skiPas) throws Exception {
         OpstaSO so = new PromeniSkiPasSO(b, skiPas);
         so.opsteIzvrsenjeSo();
+    }
+
+    public List<OpstiDomenskiObjekat> ucitajListuKupaca() throws Exception {
+        OpstaSO so = new UcitajListuKupacaSO(b, new Kupac());
+        so.opsteIzvrsenjeSo();
+        return so.getLista();
     }
 }
