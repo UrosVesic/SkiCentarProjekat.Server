@@ -11,26 +11,18 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
-import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
+import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
  *
  * @author UrosVesic
  */
-@ExtendWith(MockitoExtension.class)
-public class PretraziSkiPasoveSOTest {
-
-    @Mock
-    private BrokerBP brokerBP;
-    private PretraziSkiPasoveSO testSO;
+public class PretraziSkiPasoveSOTest extends OpstaSOTest {
 
     @BeforeEach
     public void setUp() {
@@ -44,7 +36,8 @@ public class PretraziSkiPasoveSOTest {
     }
 
     @Test
-    public void izvrsiOperacijuTest() throws Exception {
+    @Override
+    public void testIzvrsiOperaciju() throws Exception {
 
         OpstiDomenskiObjekat odo = new SkiPas();
         testSO.setOdo(odo);
@@ -55,7 +48,6 @@ public class PretraziSkiPasoveSOTest {
 
         testSO.izvrsiOperaciju();
 
-        Mockito.verify(brokerBP).pronadjiSlogove(odo);
 
         ArgumentCaptor<SkiPas> skiPasArgumentCaptor
                 = ArgumentCaptor.forClass(SkiPas.class);
