@@ -9,7 +9,6 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
-
 /**
  *
  * @author UrosVesic
@@ -21,7 +20,7 @@ public class PrijaviSeSO extends OpstaSO {
     }
 
     @Override
-    protected void izvrsiOperaciju() throws Exception {
+    public void izvrsiOperaciju() throws Exception {
         b.pronadjiSlogPoKljucu(odo);
     }
 
@@ -29,7 +28,5 @@ public class PrijaviSeSO extends OpstaSO {
     protected void proveriPreduslove() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-   
 
 }

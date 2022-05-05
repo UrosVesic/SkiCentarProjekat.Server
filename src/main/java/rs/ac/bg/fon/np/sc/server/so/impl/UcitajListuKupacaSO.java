@@ -20,7 +20,7 @@ public class UcitajListuKupacaSO extends OpstaSO {
     }
 
     @Override
-    protected void izvrsiOperaciju() throws Exception {
+    public void izvrsiOperaciju() throws Exception {
         lista = b.vratiSve(odo);
         if (lista.isEmpty()) {
             throw new Exception("Ne postoje kupci u bazi");

@@ -22,7 +22,7 @@ public class ZapamtiSkiPasSO extends OpstaSO{
     }
 
     @Override
-    protected void izvrsiOperaciju() throws Exception {
+    public void izvrsiOperaciju() throws Exception {
         SkiPas skiPas = (SkiPas) odo;
         b.zapamtiSlog(skiPas);
         for (StavkaSkiPasa stavkaSkiPasa : skiPas.getStavkeSkiPasa()) {

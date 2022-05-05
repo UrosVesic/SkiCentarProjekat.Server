@@ -53,7 +53,7 @@ public abstract class OpstaSO {
         return lista;
     }
 
-    protected abstract void izvrsiOperaciju() throws Exception;
+    public abstract void izvrsiOperaciju() throws Exception;
 
     protected abstract void proveriPreduslove() throws Exception;
 }
