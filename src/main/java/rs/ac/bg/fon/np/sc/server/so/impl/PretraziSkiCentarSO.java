@@ -9,7 +9,6 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
-
 /**
  *
  * @author draskovesic
@@ -22,7 +21,10 @@ public class PretraziSkiCentarSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        b.pronadjiSlogUnique(odo);
+        odo = b.pronadjiSlogUnique(odo);
+        if (odo == null) {
+            throw new Exception("Ne postoji ski centar");
+        }
 
     }
 

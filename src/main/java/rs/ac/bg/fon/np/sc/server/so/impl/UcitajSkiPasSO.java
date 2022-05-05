@@ -26,21 +26,19 @@ public class UcitajSkiPasSO extends OpstaSO {
     @Override
     public void izvrsiOperaciju() throws Exception {
         //b.pronadjiSlozenSlog(odo);
-        b.pronadjiSlogPoKljucu(odo);
+        odo = b.pronadjiSlogPoKljucu(odo);
+        if (odo == null) {
+            throw new Exception("Nije pronadjen ski pas sa zadatim kljucem");
+        }
         SkiPas skiPas = (SkiPas) odo;
         StavkaSkiPasa stavka = new StavkaSkiPasa();
         stavka.setSkiPas(skiPas);
-        try {
-            List<OpstiDomenskiObjekat> listaStavkiOdo = b.pronadjiSlogove(stavka);
-            List<StavkaSkiPasa> stavkeSkiPasa = new ArrayList<>();
-            for (OpstiDomenskiObjekat opstiDomenskiObjekat : listaStavkiOdo) {
-                stavkeSkiPasa.add((StavkaSkiPasa) opstiDomenskiObjekat);
-            }
-            skiPas.setStavkeSkiPasa(stavkeSkiPasa);
-        } catch (Exception ex) {
-            throw ex;
+        List<OpstiDomenskiObjekat> listaStavkiOdo = b.pronadjiSlogove(stavka);
+        List<StavkaSkiPasa> stavkeSkiPasa = new ArrayList<>();
+        for (OpstiDomenskiObjekat opstiDomenskiObjekat : listaStavkiOdo) {
+            stavkeSkiPasa.add((StavkaSkiPasa) opstiDomenskiObjekat);
         }
-
+        skiPas.setStavkeSkiPasa(stavkeSkiPasa);
     }
 
     @Override

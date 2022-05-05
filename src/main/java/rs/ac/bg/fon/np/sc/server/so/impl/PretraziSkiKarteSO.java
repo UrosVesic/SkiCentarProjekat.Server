@@ -21,11 +21,10 @@ public class PretraziSkiKarteSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        try {
             lista = b.pronadjiSlogove(odo);
-        } catch (Exception ex) {
-            throw new Exception("Ne postoji nijedna ski karta koja ispunjava uslov");
-        }
+            if(lista.isEmpty()){
+                throw new Exception("Nisu pronadjene ski karte po zadatom");
+            }
     }
 
     @Override

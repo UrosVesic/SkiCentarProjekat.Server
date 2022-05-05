@@ -23,6 +23,9 @@ public class UcitajListuSkiKarataSO extends OpstaSO {
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.vratiSve(odo);
+        if(lista.isEmpty()){
+            throw new Exception("Ne postoje ski karte u bazi");
+        }
     }
 
     @Override

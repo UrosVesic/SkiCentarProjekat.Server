@@ -21,7 +21,10 @@ public class PrijaviSeSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        b.pronadjiSlogPoKljucu(odo);
+        odo = b.pronadjiSlogPoKljucu(odo);
+        if (odo == null) {
+            throw new Exception("Ne postoji korisnik u bazi");
+        }
     }
 
     @Override

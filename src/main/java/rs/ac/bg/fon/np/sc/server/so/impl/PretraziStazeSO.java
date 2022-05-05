@@ -22,6 +22,9 @@ public class PretraziStazeSO extends OpstaSO {
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.pronadjiSlogove(odo);
+        if (lista.isEmpty()) {
+            throw new Exception("Nisu pronadjene staze");
+        }
     }
 
     @Override
