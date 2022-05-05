@@ -23,7 +23,7 @@ public class PretraziSkiKarteSO extends OpstaSO {
     public void izvrsiOperaciju() throws Exception {
             lista = b.pronadjiSlogove(odo);
             if(lista.isEmpty()){
-                throw new Exception("Nisu pronadjene ski karte po zadatom");
+                throw new Exception("Ne postoji nijedna ski karta koja ispunjava uslov");
             }
     }
 
