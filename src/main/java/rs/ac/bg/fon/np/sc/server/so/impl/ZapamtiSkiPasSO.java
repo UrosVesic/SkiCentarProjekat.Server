@@ -15,14 +15,14 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
  *
  * @author UrosVesic
  */
-public class ZapamtiSkiPasSO extends OpstaSO{
+public class ZapamtiSkiPasSO extends OpstaSO {
 
     public ZapamtiSkiPasSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
 
     @Override
-    protected void izvrsiOperaciju() throws Exception {
+    public void izvrsiOperaciju() throws Exception {
         SkiPas skiPas = (SkiPas) odo;
         b.zapamtiSlog(skiPas);
         for (StavkaSkiPasa stavkaSkiPasa : skiPas.getStavkeSkiPasa()) {
@@ -35,5 +35,5 @@ public class ZapamtiSkiPasSO extends OpstaSO{
     protected void proveriPreduslove() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
