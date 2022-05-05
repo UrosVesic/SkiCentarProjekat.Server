@@ -36,6 +36,7 @@ public class PretraziSkiCentarSOTest extends OpstaSOTest {
     public void testIzvrsiOperaciju() throws Exception {
         SkiCentar skiCentar = new SkiCentar();
         testSO.setOdo(skiCentar);
+        BDDMockito.given(brokerBP.pronadjiSlogUnique(skiCentar)).willReturn(skiCentar);
         testSO.izvrsiOperaciju();
 
         ArgumentCaptor<SkiCentar> skiCentarCaptor = ArgumentCaptor.forClass(SkiCentar.class);
@@ -46,12 +47,7 @@ public class PretraziSkiCentarSOTest extends OpstaSOTest {
     }
 
     @Test
-    public void testIzvrsiOperacijuUhvacenException() throws Exception {
-
-        SkiCentar skiCentar = new SkiCentar();
-
-        Mockito.doThrow(Exception.class).when(brokerBP).pronadjiSlogUnique(skiCentar);
-
+    public void testIzvrsiOperacijuNePostojiSkiCentar() throws Exception {
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
 
     }
