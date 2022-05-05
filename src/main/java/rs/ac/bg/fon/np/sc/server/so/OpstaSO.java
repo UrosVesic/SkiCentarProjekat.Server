@@ -27,7 +27,9 @@ public abstract class OpstaSO {
         lista = new ArrayList<>();
     }
 
-   
+    public void setOdo(OpstiDomenskiObjekat odo) {
+        this.odo = odo;
+    }
 
     public void opsteIzvrsenjeSo() throws Exception {
 

@@ -7,14 +7,13 @@ package rs.ac.bg.fon.np.sc.server.niti;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
+import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
