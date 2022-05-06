@@ -57,7 +57,7 @@ public class BrokerBP {
         }
     }
 
-    public void promeniSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+    public void promeniSlog(OpstiDomenskiObjekat odo) throws Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "UPDATE " + odo.vratiImeKlase() + " SET " + odo.postaviVrednostiAtributa() + " WHERE " + odo.vratiUslovZaPromeniSlog();
