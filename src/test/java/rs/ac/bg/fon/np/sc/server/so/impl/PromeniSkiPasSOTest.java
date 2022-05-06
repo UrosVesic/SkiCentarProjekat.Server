@@ -62,9 +62,17 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
         testSO.setOdo(skiPas);
         testSO.izvrsiOperaciju();
 
-        Mockito.verify(brokerBP).promeniSlog(skiPas);
-        Mockito.verify(brokerBP).pronadjiSlogove(stavka);
-        Mockito.verify(brokerBP).zapamtiSlog(stavka);
+        ArgumentCaptor<OpstiDomenskiObjekat> captor
+                = ArgumentCaptor.forClass(OpstiDomenskiObjekat.class);
+
+        Mockito.verify(brokerBP).promeniSlog(captor.capture());
+        assertThat(captor.getValue()).isEqualTo(skiPas);
+
+        Mockito.verify(brokerBP).pronadjiSlogove(captor.capture());
+        assertThat(captor.getValue()).isEqualTo(stavka);
+
+        Mockito.verify(brokerBP).zapamtiSlog(captor.capture());
+        assertThat(captor.getValue()).isEqualTo(stavka);
 
     }
 
@@ -97,7 +105,6 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
         assertThat(uhvaceni.get(1)).isEqualTo(stavka);
 
         Mockito.verify(brokerBP).pronadjiSlogove(captor.capture());
-
         assertThat(captor.getValue()).isEqualTo(stavka);
     }
 
@@ -123,8 +130,11 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
         testSO.setOdo(skiPas);
         testSO.izvrsiOperaciju();
 
-        Mockito.verify(brokerBP).obrisiSlog(stavkaIzBaze2);
+        ArgumentCaptor<StavkaSkiPasa> captor
+                = ArgumentCaptor.forClass(StavkaSkiPasa.class);
 
+        Mockito.verify(brokerBP).obrisiSlog(captor.capture());
+        assertThat(captor.getValue()).isEqualTo(stavkaIzBaze2);
     }
 
     @Test
