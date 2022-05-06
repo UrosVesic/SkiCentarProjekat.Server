@@ -31,6 +31,10 @@ public abstract class OpstaSO {
         this.odo = odo;
     }
 
+    public OpstiDomenskiObjekat getOdo() {
+        return odo;
+    }
+
     public void opsteIzvrsenjeSo() throws Exception {
 
         b.uspostaviKonekciju();
