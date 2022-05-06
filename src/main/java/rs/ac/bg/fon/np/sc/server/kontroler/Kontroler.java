@@ -104,9 +104,10 @@ public class Kontroler {
         serverskaForma.getBtnZaustavi().setEnabled(false);
     }
 
-    public void prijaviSe(Korisnik korisnik) throws Exception {
+    public OpstiDomenskiObjekat prijaviSe(Korisnik korisnik) throws Exception {
         OpstaSO so = new PrijaviSeSO(b, korisnik);
         so.opsteIzvrsenjeSo();
+        return so.getOdo();
     }
 
     public void dodajKorisnikaUTabelu(Korisnik trenutniKorisnik) {
@@ -142,9 +143,10 @@ public class Kontroler {
         return so.getLista();
     }
 
-    public void ucitajStazu(Staza staza) throws Exception {
+    public OpstiDomenskiObjekat ucitajStazu(Staza staza) throws Exception {
         OpstaSO so = new UcitajStazuSO(b, staza);
         so.opsteIzvrsenjeSo();
+        return so.getOdo();
     }
 
     public void promeniStazu(Staza staza) throws Exception {
@@ -162,9 +164,10 @@ public class Kontroler {
         so.opsteIzvrsenjeSo();
     }
 
-    public void pretraziSkiCentar(SkiCentar skiCentar) throws Exception {
+    public OpstiDomenskiObjekat pretraziSkiCentar(SkiCentar skiCentar) throws Exception {
         OpstaSO so = new PretraziSkiCentarSO(b, skiCentar);
         so.opsteIzvrsenjeSo();
+        return so.getOdo();
     }
 
     public void promeniSkiCentar(SkiCentar skiCentar) throws Exception {
@@ -189,9 +192,10 @@ public class Kontroler {
         return so.getLista();
     }
 
-    public void ucitajSkiPas(SkiPas skiPas) throws Exception {
+    public OpstiDomenskiObjekat ucitajSkiPas(SkiPas skiPas) throws Exception {
         OpstaSO so = new UcitajSkiPasSO(b, skiPas);
         so.opsteIzvrsenjeSo();
+        return so.getOdo();
     }
 
     public void promeniSkiPas(SkiPas skiPas) throws Exception {
