@@ -57,4 +57,11 @@ public class UcitajStazuSOTest extends OpstaSOTest {
         Assertions.assertThat(testSO.getOdo()).isEqualTo(null);
     }
 
+    @Test
+    public void testIzvrsiOperacijuBrokerException() throws Exception {
+        Staza staza = new Staza();
+        Mockito.lenient().doThrow(Exception.class).when(brokerBP).zapamtiSlog(staza);
+        Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
 }
