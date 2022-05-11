@@ -25,7 +25,6 @@ public class UcitajSkiPasSO extends OpstaSO {
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        //b.pronadjiSlozenSlog(odo);
         odo = b.pronadjiSlogPoKljucu(odo);
         if (odo == null) {
             throw new Exception("Nije pronadjen ski pas sa zadatim kljucem");
