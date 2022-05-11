@@ -1,0 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package rs.ac.bg.fon.np.sc.server.so.impl;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
+
+/**
+ *
+ * @author UrosVesic
+ */
+public class ZapamtiSkiKartuSOTest extends OpstaSOTest {
+
+    @BeforeEach
+    public void setUp() {
+        testSO = new ZapamtiSkiKartuSO(brokerBP, null);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        testSO = null;
+    }
+
+    @Override
+    @Test
+    public void testIzvrsiOperaciju() throws Exception {
+        SkiKarta skiKarta = new SkiKarta();
+        testSO.setOdo(skiKarta);
+        testSO.izvrsiOperaciju();
+        ArgumentCaptor<SkiKarta> captor
+                = ArgumentCaptor.forClass(SkiKarta.class);
+        Mockito.verify(brokerBP).zapamtiSlog(captor.capture());
+        Assertions.assertThat(captor.getValue()).isEqualTo(skiKarta);
+    }
+
+    @Test
+    public void testIzvrsiOperacijuBrokerException() throws Exception {
+        SkiKarta skiKarta = new SkiKarta();
+        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlog(skiKarta);
+        Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+}
