@@ -32,24 +32,27 @@ public class DbFabrikaKonekcije {
         return instanca;
     }
 
-    public Connection getKonekcija() throws SQLException, IOException {
+    public Connection getKonekcija() throws Exception {
 
         if (konekcija == null || konekcija.isClosed()) {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            try (InputStreamReader in = new InputStreamReader(classloader.getResourceAsStream("server/db.json"))){
-                
+            try (InputStreamReader in = new InputStreamReader(classloader.getResourceAsStream("server/db.json"))) {
+
                 Gson gson = new Gson();
-                
+
                 JsonObject json = gson.fromJson(in, JsonObject.class);
-                
+
                 String url = json.get("url").getAsString();
                 String user = json.get("username").getAsString();
                 String password = json.get("password").getAsString();
-                
+
                 konekcija = DriverManager.getConnection(url, user, password);
                 konekcija.setAutoCommit(false);
             } catch (SQLException ex) {
                 System.out.println("Neuspesno uspostavljanje konekcije!\n" + ex.getMessage());
+                throw ex;
+            } catch (IOException ex) {
+                System.out.println("Neuspesno citanje konfuguracije iz fajla");
                 throw ex;
             }
         }
