@@ -57,7 +57,7 @@ public class BrokerBP {
         }
     }
 
-    public void promeniSlog(OpstiDomenskiObjekat odo) throws SQLException, Exception {
+    public void promeniSlog(OpstiDomenskiObjekat odo) throws Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
             String upit = "UPDATE " + odo.vratiImeKlase() + " SET " + odo.postaviVrednostiAtributa() + " WHERE " + odo.vratiUslovZaPromeniSlog();
@@ -83,7 +83,7 @@ public class BrokerBP {
 
     }
 
-    public OpstiDomenskiObjekat pronadjiSlogPoKljucu(OpstiDomenskiObjekat odo) throws SQLException, IOException {
+    public OpstiDomenskiObjekat pronadjiSlogPoKljucu(OpstiDomenskiObjekat odo) throws Exception {
         OpstiDomenskiObjekat pronadjeni = null;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
@@ -94,7 +94,7 @@ public class BrokerBP {
                 pronadjeni.napuni(rs);
                 for (int i = 0; i < pronadjeni.vratiBrojVezanihObjekata(); i++) {
                     OpstiDomenskiObjekat vezo = pronadjeni.vratiVezaniObjekat(i);
-                    pronadjiSlogPoKljucu(vezo);
+                    vezo = pronadjiSlogPoKljucu(vezo);
                     pronadjeni.postaviVrednostVezanogObjekta(vezo, i);
                 }
             }
@@ -127,7 +127,9 @@ public class BrokerBP {
                 OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
                 odo1.napuni(rs);
                 for (int i = 0; i < odo.vratiBrojVezanihObjekata(); i++) {
-                    pronadjiSlogPoKljucu(odo1.vratiVezaniObjekat(i));
+                    OpstiDomenskiObjekat vezo = odo1.vratiVezaniObjekat(i);
+                    vezo = pronadjiSlogPoKljucu(vezo);
+                    odo1.postaviVrednostVezanogObjekta(vezo, i);
                 }
 
                 lista.add(odo1);
@@ -151,7 +153,7 @@ public class BrokerBP {
                 lista.add(odo1);
                 for (int i = 0; i < odo1.vratiBrojVezanihObjekata(); i++) {
                     OpstiDomenskiObjekat vezo = odo1.vratiVezaniObjekat(i);
-                    pronadjiSlogPoKljucu(vezo);
+                    vezo = pronadjiSlogPoKljucu(vezo);
                     odo1.postaviVrednostVezanogObjekta(vezo, i);
                 }
             }
@@ -162,7 +164,7 @@ public class BrokerBP {
         return lista;
     }
 
-    public OpstiDomenskiObjekat pronadjiSlogUnique(OpstiDomenskiObjekat odo) throws SQLException, IOException {
+    public OpstiDomenskiObjekat pronadjiSlogUnique(OpstiDomenskiObjekat odo) throws Exception {
         OpstiDomenskiObjekat pronadjeni = null;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
@@ -173,7 +175,7 @@ public class BrokerBP {
                 pronadjeni.napuni(rs);
                 for (int i = 0; i < pronadjeni.vratiBrojVezanihObjekata(); i++) {
                     OpstiDomenskiObjekat vezo = pronadjeni.vratiVezaniObjekat(i);
-                    pronadjiSlogPoKljucu(vezo);
+                    vezo = pronadjiSlogPoKljucu(vezo);
                     pronadjeni.postaviVrednostVezanogObjekta(vezo, i);
                 }
             }
