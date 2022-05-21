@@ -39,6 +39,7 @@ import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiKarataSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajSkiPasSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiKupcaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiPasSO;
@@ -207,5 +208,10 @@ public class Kontroler {
         OpstaSO so = new UcitajListuKupacaSO(b, new Kupac());
         so.opsteIzvrsenjeSo();
         return so.getLista();
+    }
+
+    public void zapamtiKupca(Kupac kupac) throws Exception {
+        OpstaSO so = new ZapamtiKupcaSO(b, kupac);
+        so.opsteIzvrsenjeSo();
     }
 }
