@@ -6,9 +6,11 @@
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
-
+import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
 
 /**
  *
@@ -26,8 +28,9 @@ public class PromeniSkiCentarSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
-       throw new UnsupportedOperationException();
+    public void proveriPreduslove() throws ValidationException {
+        SkiCentar sc = (SkiCentar) odo;
+        Validator.startValidation().validateWorkingHoursFormat(sc.getRadnoVreme(), "Pogresan format radnog vremena").throwIfInvalide();
     }
 
 }

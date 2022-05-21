@@ -29,7 +29,6 @@ public class PrijaviSeSO extends OpstaSO {
 
     @Override
     protected void proveriPreduslove() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
