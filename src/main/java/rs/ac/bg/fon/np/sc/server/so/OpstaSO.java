@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 
 /**
@@ -35,11 +36,11 @@ public abstract class OpstaSO {
         return odo;
     }
 
-    public void opsteIzvrsenjeSo() throws Exception {
+    public void opsteIzvrsenjeSo() throws Exception,ValidationException {
 
         b.uspostaviKonekciju();
         try {
-            //proveriPreduslove();
+            proveriPreduslove();
             izvrsiOperaciju();
             b.potvrdiTransakciju();
 
@@ -59,5 +60,5 @@ public abstract class OpstaSO {
 
     public abstract void izvrsiOperaciju() throws Exception;
 
-    protected abstract void proveriPreduslove() throws Exception;
+    protected abstract void proveriPreduslove() throws Exception,ValidationException;
 }
