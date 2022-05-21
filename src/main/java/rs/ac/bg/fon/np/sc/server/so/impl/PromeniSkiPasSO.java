@@ -9,6 +9,8 @@ import java.util.List;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonlib.domen.StavkaSkiPasa;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
@@ -47,8 +49,9 @@ public class PromeniSkiPasSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
-        throw new UnsupportedOperationException();
+    public void proveriPreduslove() throws ValidationException{
+        SkiPas sp = (SkiPas) odo;
+        Validator.startValidation().validateIfDateIsInSeason(sp.getDatumIzdavanja(), sp.getSezona(), "Datum izdavanja ski pasa nije u sezoni koja je navedena").throwIfInvalide();
     }
 
 }

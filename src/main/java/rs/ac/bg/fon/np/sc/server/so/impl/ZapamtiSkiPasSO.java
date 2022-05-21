@@ -8,6 +8,8 @@ package rs.ac.bg.fon.np.sc.server.so.impl;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonlib.domen.StavkaSkiPasa;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
@@ -32,8 +34,15 @@ public class ZapamtiSkiPasSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void proveriPreduslove() throws ValidationException {
+        SkiPas skiPas = (SkiPas) odo;
+        Validator.startValidation().validateSeasonFormat(skiPas.getSezona(), "Nepravilan format sezone").throwIfInvalide()
+                .validateNotNullOrEmpty(skiPas.getStavkeSkiPasa(), "Ne moze se sacuvati ski pas bez stavki")
+                .validateIfDateIsInSeason(skiPas.getDatumIzdavanja(), skiPas.getSezona(), "Datum izdavanja ski pasa nije u navedenoj sezoni")
+                .throwIfInvalide();
+        for (StavkaSkiPasa stavkaSkiPasa : skiPas.getStavkeSkiPasa()) {
+            Validator.startValidation().validateIfDateIsInSeason(stavkaSkiPasa.getPocetakVazenja(), skiPas.getSezona(), "Stavka " + stavkaSkiPasa.getRedniBroj() + ". nije u sezoni za koju se izdaje ski pas").throwIfInvalide();
+        }
     }
 
 }
