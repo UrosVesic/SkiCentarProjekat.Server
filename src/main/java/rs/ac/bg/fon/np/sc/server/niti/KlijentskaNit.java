@@ -121,6 +121,9 @@ public class KlijentskaNit extends Thread {
             case Operacije.UCITAJ_LISTU_KUPACA:
                 odgovor = ucitajListuKupaca(zahtev);
                 break;
+            case Operacije.ZAPAMTI_KUPCA:
+                odgovor = zapamtiKupca(zahtev);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -133,7 +136,7 @@ public class KlijentskaNit extends Thread {
         Korisnik korisnik = new Gson().fromJson(objekat, Korisnik.class);
         Odgovor odgovor = new Odgovor();
         try {
-            Kontroler.getInstanca().prijaviSe(korisnik);
+            korisnik = (Korisnik) Kontroler.getInstanca().prijaviSe(korisnik);
             objekat = new Gson().toJson(korisnik);
             odgovor.setRezultat(objekat);
             trenutniKorisnik = korisnik;
@@ -237,7 +240,7 @@ public class KlijentskaNit extends Thread {
         Staza staza = new Gson().fromJson(objekat, Staza.class);
         Odgovor odgovor = new Odgovor();
         try {
-            Kontroler.getInstanca().ucitajStazu(staza);
+            staza = (Staza) Kontroler.getInstanca().ucitajStazu(staza);
             objekat = new Gson().toJson(staza);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
@@ -305,7 +308,7 @@ public class KlijentskaNit extends Thread {
         SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
         Odgovor odgovor = new Odgovor();
         try {
-            Kontroler.getInstanca().pretraziSkiCentar(skiCentar);
+            skiCentar = (SkiCentar) Kontroler.getInstanca().pretraziSkiCentar(skiCentar);
             objekat = new Gson().toJson(skiCentar);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
@@ -392,7 +395,7 @@ public class KlijentskaNit extends Thread {
         SkiPas skiPas = gson.fromJson(objekat, SkiPas.class);
         Odgovor odgovor = new Odgovor();
         try {
-            Kontroler.getInstanca().ucitajSkiPas(skiPas);
+            skiPas = (SkiPas) Kontroler.getInstanca().ucitajSkiPas(skiPas);
             gson = gsonBuilder.setDateFormat("yyyy-MM-dd").excludeFieldsWithoutExposeAnnotation().create();
             objekat = gson.toJson(skiPas);
             odgovor.setRezultat(objekat);
@@ -430,6 +433,23 @@ public class KlijentskaNit extends Thread {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuKupaca();
             rezultat = new Gson().toJson(lista);
             odgovor.setRezultat(rezultat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiKupca(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        Kupac kupac = new Gson().fromJson(objekat, Kupac.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiKupca(kupac);
+            objekat = new Gson().toJson(kupac);
+            odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
             odgovor.setUspesno(false);
