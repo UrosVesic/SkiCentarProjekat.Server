@@ -51,8 +51,6 @@ public class ServerskaNit extends Thread {
         serverSocket.close();
     }
 
-    void obavestiOOdjavljivanju(KlijentskaNit aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 }
