@@ -14,7 +14,9 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- * Klasa koja predstavlja sistemsku operaciju cuvanje ski pasa. Nasledjuje klasu OpstaSO.
+ * Klasa koja predstavlja sistemsku operaciju cuvanje ski pasa. Nasledjuje klasu
+ * OpstaSO.
+ *
  * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
@@ -23,16 +25,21 @@ public class ZapamtiSkiPasSO extends OpstaSO {
     public ZapamtiSkiPasSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
+
     /**
      * Izvrsava sistemsku operaciju - pamti kupca u bazi podataka
+     *
      * @throws Exception ako nije moguce zapamtiti ski pas ili neku od stavki
      */
     @Override
     public void izvrsiOperaciju() throws Exception {
         SkiPas skiPas = (SkiPas) odo;
         b.zapamtiSlog(skiPas);
+        long id = 1;
         for (StavkaSkiPasa stavkaSkiPasa : skiPas.getStavkeSkiPasa()) {
             stavkaSkiPasa.setSkiPas(skiPas);
+            stavkaSkiPasa.setRedniBroj(id);
+            id++;
             b.zapamtiSlog(stavkaSkiPasa);
         }
     }

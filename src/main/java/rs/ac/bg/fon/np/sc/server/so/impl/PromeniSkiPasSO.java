@@ -15,7 +15,9 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- * Klasa koja predstavlja sistemsku operaciju promena ski pasa. Nasledjuje klasu OpstaSO.
+ * Klasa koja predstavlja sistemsku operaciju promena ski pasa. Nasledjuje klasu
+ * OpstaSO.
+ *
  * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
@@ -24,8 +26,10 @@ public class PromeniSkiPasSO extends OpstaSO {
     public PromeniSkiPasSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
+
     /**
      * Izvrsava sistemsku operaciju - menja podatke o ski pasu u bazi podataka
+     *
      * @throws Exception ako nije moguce promeniti podatke o ski pasu
      */
     @Override
@@ -36,11 +40,17 @@ public class PromeniSkiPasSO extends OpstaSO {
         List<OpstiDomenskiObjekat> stavkeIzBaze = b.pronadjiSlogove(stavkaSkiPasa);
         b.promeniSlog(odo);
 
+        StavkaSkiPasa stavka1 = skiPas.getStavkeSkiPasa().get(0);
+        stavka1.setSkiPas(skiPas);
+        long id = b.vratiMaxRbSlabogObjekta(stavka1);
+
         for (StavkaSkiPasa stavka : skiPas.getStavkeSkiPasa()) {
             stavka.setSkiPas(skiPas);
             if (b.daLiPostojiSlog(stavka)) {
                 b.promeniSlog(stavka);
             } else {
+                stavka.setRedniBroj(id);
+                id++;
                 b.zapamtiSlog(stavka);
             }
         }
@@ -53,7 +63,7 @@ public class PromeniSkiPasSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws ValidationException{
+    public void proveriPreduslove() throws ValidationException {
         SkiPas sp = (SkiPas) odo;
         Validator.startValidation().validateIfDateIsInSeason(sp.getDatumIzdavanja(), sp.getSezona(), "Datum izdavanja ski pasa nije u sezoni koja je navedena").throwIfInvalide();
     }
