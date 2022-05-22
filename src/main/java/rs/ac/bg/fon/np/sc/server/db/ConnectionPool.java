@@ -17,8 +17,17 @@ import rs.ac.bg.fon.np.sc.server.db.util.DBUtil;
  */
 public class ConnectionPool {
 
+    /**
+     * Objekat koji upravlja connection pool-om. Kreira konekcije i upravlja
+     * njima.
+     */
     private PoolDataSource ds;
 
+    /**
+     * Inicijalizuje PoolDataSource i postavlja parametre za konekciju sa bazom
+     *
+     * @throws Exception ako dodje do greske prilikom postavljanja vrednosti u PoolDateSource objekat
+     */
     public void inicijalizacijaConnectionPoolDataSource() throws Exception {
         ds = PoolDataSourceFactory.getPoolDataSource();
         ds.setConnectionFactoryClassName(DBUtil.getInstance().getConnectionFactoryClassName());
@@ -30,8 +39,12 @@ public class ConnectionPool {
         ds.setMaxPoolSize(100);
         ds.setAbandonedConnectionTimeout(5000);
     }
-
-    public Connection uspostaviKonekciju() throws SQLException {
+    /**
+     * Vraca konekciju iz connection pool-a
+     * @return Konekciju kao objekat klase Connection
+     * @throws SQLException ako PoolDataSource ne moze da vrati konekciju
+     */
+    public Connection vratiKonekciju() throws SQLException {
         return ds.getConnection();
     }
 
