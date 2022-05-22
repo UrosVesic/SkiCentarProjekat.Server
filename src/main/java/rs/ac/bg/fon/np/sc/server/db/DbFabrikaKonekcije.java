@@ -64,7 +64,7 @@ public class DbFabrikaKonekcije {
 
         if (konekcija == null || konekcija.isClosed()) {
             try {
-                konekcija = pool.uspostaviKonekciju();
+                konekcija = pool.vratiKonekciju();
                 konekcija.setAutoCommit(false);
             } catch (SQLException ex) {
                 System.out.println("Neuspesno uspostavljanje konekcije!\n" + ex.getMessage());
