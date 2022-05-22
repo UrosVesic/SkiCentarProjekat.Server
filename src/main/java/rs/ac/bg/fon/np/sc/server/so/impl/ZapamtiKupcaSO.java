@@ -11,7 +11,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju cuvanje kupca. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class ZapamtiKupcaSO extends OpstaSO {
@@ -19,14 +20,17 @@ public class ZapamtiKupcaSO extends OpstaSO {
     public ZapamtiKupcaSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - pamti kupca u bazi podataka
+     * @throws Exception ako nije moguce zapamtiti kupca
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         b.zapamtiSlog(odo);
     }
 
     @Override
-    protected void proveriPreduslove() throws Exception, ValidationException {
+    protected void proveriPreduslove() {
     }
 
 }

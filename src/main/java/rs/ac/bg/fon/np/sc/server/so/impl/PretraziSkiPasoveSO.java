@@ -11,7 +11,8 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju pretrage ski pasova. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class PretraziSkiPasoveSO extends OpstaSO {
@@ -19,7 +20,11 @@ public class PretraziSkiPasoveSO extends OpstaSO {
     public PretraziSkiPasoveSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    
+    /**
+     * Izvrsava sistemsku operaciju - pretrazuje ski pasove
+     * @throws Exception ako ne postoji nijedan ski pas koji ispunjva kriterijum ili ga nije moguce ucitati
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.pronadjiSlogove(odo);
@@ -29,7 +34,7 @@ public class PretraziSkiPasoveSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove() {
     }
 
 }

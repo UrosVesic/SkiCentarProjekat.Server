@@ -14,24 +14,42 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * Singleton klasa koja je zaduzena za kreiranje konekcije sa bazom podataka
  * @author UrosVesic
  */
 public class DbFabrikaKonekcije {
-
+    
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection konekcija;
+    /**
+     * Instanca klase DbFarbrikaKonekcije 
+     */
     private static DbFabrikaKonekcije instanca;
-
+    
+    /**
+     * Default konstruktor koji postavlja atribute na predefinisane vrednosti
+     */
     private DbFabrikaKonekcije() {
     }
-
+    
+    /**
+     * Pravi novu ili vraca vec postojecu instancu klase DbFarbrikaKonekcije. Predstavlja implementaciju Singleton paterna
+     * @return instancu klase DbFabrikaKonekcije
+     */
     public static DbFabrikaKonekcije getInstanca() {
         if (instanca == null) {
             instanca = new DbFabrikaKonekcije();
         }
         return instanca;
     }
-
+    
+    /**
+     * Vraca novu konekciju sa bazom podataka
+     * @return konekciju sa bazom podataka kao objekat klase Connection
+     * @throws Exception ako nije moguce uspostaviti konekciju sa bazom podataka
+     */
     public Connection getKonekcija() throws Exception {
 
         if (konekcija == null || konekcija.isClosed()) {

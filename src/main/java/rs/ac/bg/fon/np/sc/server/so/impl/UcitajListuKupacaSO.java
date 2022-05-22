@@ -10,7 +10,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju ucitavanja kupaca. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class UcitajListuKupacaSO extends OpstaSO {
@@ -18,7 +19,10 @@ public class UcitajListuKupacaSO extends OpstaSO {
     public UcitajListuKupacaSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - ucitava sve kupce listu
+     * @throws Exception ako ne postoji nijedan kupac u bazi ili nije moguce ucitati listu kupaca
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.vratiSve(odo);
@@ -28,7 +32,7 @@ public class UcitajListuKupacaSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws Exception {
+    protected void proveriPreduslove(){
     }
 
 }

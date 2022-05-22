@@ -10,7 +10,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju ucitavanje staza. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class UcitajStazuSO extends OpstaSO {
@@ -18,7 +19,10 @@ public class UcitajStazuSO extends OpstaSO {
     public UcitajStazuSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - ucitava stazu iz baze
+     * @throws Exception ako ne postoji staza koja ispunjava uslov ili je nije moguce ucitati
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         odo = b.pronadjiSlogPoKljucu(odo);
@@ -28,7 +32,7 @@ public class UcitajStazuSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove(){
     }
 
 }

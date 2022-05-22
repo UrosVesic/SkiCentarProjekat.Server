@@ -6,11 +6,13 @@
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju cuvanje staze. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class ZapamtiStazuSO extends OpstaSO {
@@ -18,15 +20,17 @@ public class ZapamtiStazuSO extends OpstaSO {
     public ZapamtiStazuSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - pamti kupca u bazi podataka
+     * @throws Exception ako nije moguce zapamtiti stazu
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         b.zapamtiSlog(odo);
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
-        throw new UnsupportedOperationException();
+    public void proveriPreduslove(){
     }
 
 }

@@ -14,7 +14,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju cuvanje ski karte. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class ZapamtiSkiKartuSO extends OpstaSO {
@@ -22,7 +23,10 @@ public class ZapamtiSkiKartuSO extends OpstaSO {
     public ZapamtiSkiKartuSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - pamti kupca u bazi podataka
+     * @throws Exception ako nije moguce zapamtiti ski kartu
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         b.zapamtiSlog(odo);

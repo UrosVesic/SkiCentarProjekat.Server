@@ -10,7 +10,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju promena ski staze. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class PromeniStazuSO extends OpstaSO {
@@ -18,15 +19,17 @@ public class PromeniStazuSO extends OpstaSO {
     public PromeniStazuSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - menja podatke o stazi u bazi podataka
+     * @throws Exception ako nije moguce promeniti podatke o bazi
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         b.promeniSlog(odo);
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
-        throw new UnsupportedOperationException();
+    public void proveriPreduslove() {
     }
 
 }

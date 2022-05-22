@@ -10,7 +10,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju prijavljivanje korisnika na sistem. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class PrijaviSeSO extends OpstaSO {
@@ -18,7 +19,10 @@ public class PrijaviSeSO extends OpstaSO {
     public PrijaviSeSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - prijavljuje korisnika
+     * @throws Exception ako su uneti pogresni parametri za prijavu
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         odo = b.pronadjiSlogPoKljucu(odo);
@@ -28,7 +32,7 @@ public class PrijaviSeSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws Exception {
+    protected void proveriPreduslove() {
     }
 
 }

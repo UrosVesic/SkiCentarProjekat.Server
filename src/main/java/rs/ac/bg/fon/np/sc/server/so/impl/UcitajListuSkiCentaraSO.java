@@ -10,7 +10,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju ucitavanje ski centara Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class UcitajListuSkiCentaraSO extends OpstaSO {
@@ -18,7 +19,11 @@ public class UcitajListuSkiCentaraSO extends OpstaSO {
     public UcitajListuSkiCentaraSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    
+    /**
+     * Izvrsava sistemsku operaciju - ucitava ski centre u listu
+     * @throws Exception ako ne postoji nijedan ski centar ili nije moguce ucitati ski centre
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.vratiSve(odo);
@@ -28,7 +33,7 @@ public class UcitajListuSkiCentaraSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove(){
     }
 
 }

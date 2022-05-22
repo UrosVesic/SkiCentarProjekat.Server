@@ -15,7 +15,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju promena ski pasa. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class PromeniSkiPasSO extends OpstaSO {
@@ -23,7 +24,10 @@ public class PromeniSkiPasSO extends OpstaSO {
     public PromeniSkiPasSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - menja podatke o ski pasu u bazi podataka
+     * @throws Exception ako nije moguce promeniti podatke o ski pasu
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         SkiPas skiPas = (SkiPas) odo;

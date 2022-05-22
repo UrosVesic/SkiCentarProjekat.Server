@@ -11,7 +11,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju ucitavanje ski karata. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class UcitajListuSkiKarataSO extends OpstaSO {
@@ -19,7 +20,10 @@ public class UcitajListuSkiKarataSO extends OpstaSO {
     public UcitajListuSkiKarataSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - ucitava ski karte iz baze u listu
+     * @throws Exception ako ne postoji nijedna ski karta ili nije moguce ucitati ski karte
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = b.vratiSve(odo);
@@ -29,7 +33,7 @@ public class UcitajListuSkiKarataSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove(){
     }
 
 }

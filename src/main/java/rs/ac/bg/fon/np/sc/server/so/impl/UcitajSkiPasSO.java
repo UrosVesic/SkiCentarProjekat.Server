@@ -14,7 +14,8 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
+ * Klasa koja predstavlja sistemsku operaciju ucitavanje ski pasa. Nasledjuje klasu OpstaSO.
+ * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
 public class UcitajSkiPasSO extends OpstaSO {
@@ -22,7 +23,10 @@ public class UcitajSkiPasSO extends OpstaSO {
     public UcitajSkiPasSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    /**
+     * Izvrsava sistemsku operaciju - ucitava ski pas
+     * @throws Exception ako ne postoji ski pas po zadatom kriterijumu ili ga nije moguce ucitati iz baze
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         odo = b.pronadjiSlogPoKljucu(odo);
@@ -41,7 +45,7 @@ public class UcitajSkiPasSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove() {
     }
 
 }

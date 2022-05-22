@@ -10,15 +10,20 @@ import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- *
- * @author draskovesic
+ * Klasa koja predstavlja sistemsku operaciju pretrage ski centra. Nasledjuje klasu OpstaSO.
+ * @see OpstaSO
+ * @author UrosVesic
  */
 public class PretraziSkiCentarSO extends OpstaSO {
 
     public PretraziSkiCentarSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-
+    
+    /**
+     * Izvrsava sistemsku operaciju - pretrazuje ski centar
+     * @throws Exception ako ne postoji trazeni ski centar ili ga nije moguce ucitati
+     */
     @Override
     public void izvrsiOperaciju() throws Exception {
         odo = b.pronadjiSlogUnique(odo);
@@ -29,7 +34,7 @@ public class PretraziSkiCentarSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws Exception {
+    public void proveriPreduslove(){
     }
 
 }
