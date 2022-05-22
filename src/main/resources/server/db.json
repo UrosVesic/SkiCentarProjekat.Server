@@ -1,5 +1,6 @@
 {
     "url":"jdbc:mysql://localhost:3306/NPprojekat",
     "username":"root",
-    "password":"root"
+    "password":"root",
+    "connection_factory_class_name":"com.mysql.cj.jdbc.MysqlConnectionPoolDataSource"
 }
