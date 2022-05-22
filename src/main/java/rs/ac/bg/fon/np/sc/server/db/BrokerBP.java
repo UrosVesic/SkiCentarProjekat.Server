@@ -62,7 +62,7 @@ public class BrokerBP {
         String upit;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            upit = "INSERT INTO " + odo.vratiImeKlase()
+            upit = "INSERT INTO " + odo.vratiImeTabeleZaKlasu()
                     + "(" + odo.vratiImenaAtrubita() + ")" + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
             statement.executeUpdate(upit, Statement.RETURN_GENERATED_KEYS);
             ResultSet rsId = statement.getGeneratedKeys();
@@ -84,7 +84,7 @@ public class BrokerBP {
     public void promeniSlog(OpstiDomenskiObjekat odo) throws Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "UPDATE " + odo.vratiImeKlase() + " SET " + odo.postaviVrednostiAtributa() + " WHERE " + odo.vratiUslovZaPromeniSlog();
+            String upit = "UPDATE " + odo.vratiImeTabeleZaKlasu() + " SET " + odo.postaviVrednostiAtributa() + " WHERE " + odo.vratiUslovZaPromeniSlog();
             if (statement.executeUpdate(upit) == 0) {
                 throw new Exception("Ne postoji slog za promenu u bazi");
             }
@@ -101,7 +101,7 @@ public class BrokerBP {
     public void obrisiSlog(OpstiDomenskiObjekat odo) throws Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "DELETE FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
+            String upit = "DELETE FROM " + odo.vratiImeTabeleZaKlasu() + " WHERE " + odo.vratiUslovZaNadjiSlog();
             if (statement.executeUpdate(upit) == 0) {
                 throw new Exception("Ne postoji slog za brisanje u bazi");
             }
@@ -121,7 +121,7 @@ public class BrokerBP {
         OpstiDomenskiObjekat pronadjeni = null;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
+            String upit = "SELECT * FROM " + odo.vratiImeTabeleZaKlasu() + " WHERE " + odo.vratiUslovZaNadjiSlog();
             ResultSet rs = statement.executeQuery(upit);
             if (rs.next()) {
                 pronadjeni = odo.kreirajInstancu();
@@ -148,7 +148,7 @@ public class BrokerBP {
     public boolean daLiPostojiSlog(OpstiDomenskiObjekat odo) throws Exception {
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
+            String upit = "SELECT * FROM " + odo.vratiImeTabeleZaKlasu() + " WHERE " + odo.vratiUslovZaNadjiSlog();
             ResultSet rs = statement.executeQuery(upit);
             return rs.next();
         } catch (SQLException ex) {
@@ -166,7 +166,7 @@ public class BrokerBP {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement();) {
-            String upit = "SELECT * FROM " + odo.vratiImeKlase();
+            String upit = "SELECT * FROM " + odo.vratiImeTabeleZaKlasu();
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
                 OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
@@ -195,7 +195,7 @@ public class BrokerBP {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlogove();
+            String upit = "SELECT * FROM " + odo.vratiImeTabeleZaKlasu() + " WHERE " + odo.vratiUslovZaNadjiSlogove();
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
                 OpstiDomenskiObjekat odo1 = odo.kreirajInstancu();
@@ -223,7 +223,7 @@ public class BrokerBP {
         OpstiDomenskiObjekat pronadjeni = null;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
-            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog2();
+            String upit = "SELECT * FROM " + odo.vratiImeTabeleZaKlasu() + " WHERE " + odo.vratiUslovZaNadjiSlog2();
             ResultSet rs = statement.executeQuery(upit);
             if (rs.next()) {
                 pronadjeni = odo.kreirajInstancu();
