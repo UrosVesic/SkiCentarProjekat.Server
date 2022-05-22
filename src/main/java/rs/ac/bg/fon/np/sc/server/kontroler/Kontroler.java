@@ -47,6 +47,8 @@ import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiZicaruSO;
 
 /**
+ * Klasa koja prosledjuje pozive sistemskih operacija do odgovarajucih klasa za
+ * njihovo izvrsavanje
  *
  * @author UrosVesic
  */
@@ -213,5 +215,10 @@ public class Kontroler {
     public void zapamtiKupca(Kupac kupac) throws Exception {
         OpstaSO so = new ZapamtiKupcaSO(b, kupac);
         so.opsteIzvrsenjeSo();
+    }
+
+    public void odjaviKorisnika(Korisnik trenutniKorisnik) {
+        ModelTabeleKorisnik model = (ModelTabeleKorisnik) serverskaForma.getTblKorisnici().getModel();
+        model.obrisi(trenutniKorisnik);
     }
 }
