@@ -53,7 +53,7 @@ public class KlijentskaNit extends Thread {
                 ex.printStackTrace();
             }
         }
-        serverskaNit.obavestiOOdjavljivanju(this);
+        Kontroler.getInstanca().odjaviKorisnika(trenutniKorisnik);
     }
 
     void zaustavi() {
@@ -143,6 +143,7 @@ public class KlijentskaNit extends Thread {
             Kontroler.getInstanca().dodajKorisnikaUTabelu(trenutniKorisnik);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
+            ex.printStackTrace();
             odgovor.setUspesno(false);
             odgovor.setException(ex);
         }
