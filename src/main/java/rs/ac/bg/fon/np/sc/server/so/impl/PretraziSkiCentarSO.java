@@ -6,11 +6,16 @@
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- * Klasa koja predstavlja sistemsku operaciju pretrage ski centra. Nasledjuje klasu OpstaSO.
+ * Klasa koja predstavlja sistemsku operaciju pretrage ski centra. Nasledjuje
+ * klasu OpstaSO.
+ *
  * @see OpstaSO
  * @author UrosVesic
  */
@@ -19,10 +24,12 @@ public class PretraziSkiCentarSO extends OpstaSO {
     public PretraziSkiCentarSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
-    
+
     /**
      * Izvrsava sistemsku operaciju - pretrazuje ski centar
-     * @throws Exception ako ne postoji trazeni ski centar ili ga nije moguce ucitati
+     *
+     * @throws Exception ako ne postoji trazeni ski centar ili ga nije moguce
+     * ucitati
      */
     @Override
     public void izvrsiOperaciju() throws Exception {
@@ -34,7 +41,9 @@ public class PretraziSkiCentarSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove(){
+    public void proveriPreduslove() throws ValidationException {
+        SkiCentar sc = (SkiCentar) odo;
+        Validator.startValidation().validateNotNullOrEmpty(sc.getNazivSkiCentra(), "Niste uneli naziv za pretragu").throwIfInvalide();
     }
 
 }
