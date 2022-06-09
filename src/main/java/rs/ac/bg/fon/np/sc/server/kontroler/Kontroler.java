@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.List;
+import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
@@ -37,9 +38,11 @@ import rs.ac.bg.fon.np.sc.server.so.impl.PromeniStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuKupacaSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiCentaraSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajListuSkiKarataSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.UcitajSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajSkiPasSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.UcitajStazuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiKupcaSO;
+import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiCentarDetaljnije;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiCentarSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiKartuSO;
 import rs.ac.bg.fon.np.sc.server.so.impl.ZapamtiSkiPasSO;
@@ -220,5 +223,17 @@ public class Kontroler {
     public void odjaviKorisnika(Korisnik trenutniKorisnik) {
         ModelTabeleKorisnik model = (ModelTabeleKorisnik) serverskaForma.getTblKorisnici().getModel();
         model.obrisi(trenutniKorisnik);
+    }
+
+    public SkiCentarDto ucitajSkiCentar(SkiCentarDto skiCentarDto) throws Exception {
+        SkiCentar skiCentar = skiCentarDto.getSkiCentar();
+        UcitajSkiCentarSO so = new UcitajSkiCentarSO(b, skiCentar);
+        so.opsteIzvrsenjeSo();
+        return so.getDto();
+    }
+
+    public void zapamtiSkiCentarDet(SkiCentarDto skiCentarDto) throws Exception {
+        OpstaSO so = new ZapamtiSkiCentarDetaljnije(b, skiCentarDto);
+        so.opsteIzvrsenjeSo();
     }
 }
