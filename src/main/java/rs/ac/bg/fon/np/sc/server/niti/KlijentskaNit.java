@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
@@ -123,6 +124,12 @@ public class KlijentskaNit extends Thread {
                 break;
             case Operacije.ZAPAMTI_KUPCA:
                 odgovor = zapamtiKupca(zahtev);
+                break;
+            case Operacije.UCITAJ_SKI_CENTAR_DETALJNIJE:
+                odgovor = ucitajSkiCentarDetaljnije(zahtev);
+                break;
+            case Operacije.ZAPAMTI_SKI_CENTAR_DETALJNIJE:
+                odgovor = zapamtiSkiCentarDetaljnije(zahtev);
                 break;
             default:
                 throw new AssertionError();
@@ -450,6 +457,40 @@ public class KlijentskaNit extends Thread {
         try {
             Kontroler.getInstanca().zapamtiKupca(kupac);
             objekat = new Gson().toJson(kupac);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor ucitajSkiCentarDetaljnije(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentarDto skiCentarDto = new Gson().fromJson(objekat, SkiCentarDto.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            SkiCentarDto dto = Kontroler.getInstanca().ucitajSkiCentar(skiCentarDto);
+            objekat = new Gson().toJson(dto);
+            odgovor.setRezultat(objekat);
+            odgovor.setUspesno(true);
+        } catch (Exception ex) {
+            odgovor.setUspesno(false);
+            odgovor.setException(ex);
+        }
+        return odgovor;
+    }
+
+    private Odgovor zapamtiSkiCentarDetaljnije(Zahtev zahtev) {
+        Gson gson = new Gson();
+        String objekat = zahtev.getParametar();
+        SkiCentarDto skiCentarDto = new Gson().fromJson(objekat, SkiCentarDto.class);
+        Odgovor odgovor = new Odgovor();
+        try {
+            Kontroler.getInstanca().zapamtiSkiCentarDet(skiCentarDto);
+            objekat = new Gson().toJson(skiCentarDto);
             odgovor.setRezultat(objekat);
             odgovor.setUspesno(true);
         } catch (Exception ex) {
