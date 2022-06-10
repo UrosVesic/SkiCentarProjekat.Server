@@ -17,9 +17,9 @@ import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
-import rs.ac.bg.fon.np.sc.commonlib.domen.StavkaSkiPasa;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
+import rs.ac.bg.fon.np.sc.commonLib.domen.StavkaSkiPasa;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
 

@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
-import rs.ac.bg.fon.np.sc.commonlib.domen.StavkaSkiPasa;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
+import rs.ac.bg.fon.np.sc.commonLib.domen.StavkaSkiPasa;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**

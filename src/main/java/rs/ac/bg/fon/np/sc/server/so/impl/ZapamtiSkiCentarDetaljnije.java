@@ -6,12 +6,12 @@
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import java.util.List;
-import rs.ac.bg.fon.np.sc.commonlib.dto.SkiCentarDto;
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
-import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 

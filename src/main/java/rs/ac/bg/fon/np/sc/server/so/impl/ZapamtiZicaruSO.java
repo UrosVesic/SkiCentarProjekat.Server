@@ -5,10 +5,10 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
-import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
-import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 

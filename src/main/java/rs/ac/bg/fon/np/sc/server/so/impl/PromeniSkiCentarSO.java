@@ -5,12 +5,12 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
-import rs.ac.bg.fon.np.sc.commonlib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
-import rs.ac.bg.fon.np.sc.commonlib.validator.Validator;
+import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 
 /**
  * Klasa koja predstavlja sistemsku operaciju promena ski centra. Nasledjuje klasu OpstaSO.

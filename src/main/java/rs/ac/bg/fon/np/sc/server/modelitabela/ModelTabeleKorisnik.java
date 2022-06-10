@@ -8,7 +8,7 @@ package rs.ac.bg.fon.np.sc.server.modelitabela;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Korisnik;
 
 /**
  *

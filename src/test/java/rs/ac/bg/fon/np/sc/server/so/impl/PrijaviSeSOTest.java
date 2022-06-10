@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
 

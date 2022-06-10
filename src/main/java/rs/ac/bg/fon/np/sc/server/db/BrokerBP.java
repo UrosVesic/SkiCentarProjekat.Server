@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
 
 /**
  * Klasa zaduzena za interakciju sa bazom podataka i izvrsavanje CRUD operacija

@@ -17,18 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonlib.dto.SkiCentarDto;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
-import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiCentar;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
-import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
-import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
-import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
-import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
-import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Primalac;
+import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Korisnik;
+import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
+import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Operacije;
+import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Posiljalac;
+import rs.ac.bg.fon.np.sc.commonLib.komunikacija.Primalac;
 import rs.ac.bg.fon.np.sc.server.kontroler.Kontroler;
 
 /**
@@ -109,7 +109,7 @@ public class KlijentskaNit extends Thread {
                 odgovor = promeniSkiCentar(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_LISTU_SKI_KARATA:
-                ucitajListuSkiKarata();
+                odgovor = ucitajListuSkiKarata();
                 break;
             case Operacije.ZAPAMTI_SKI_PAS:
                 odgovor = zapamtiSkiPas(element.getAsJsonObject().get("parametar").getAsJsonObject());
@@ -124,7 +124,7 @@ public class KlijentskaNit extends Thread {
                 odgovor = promeniSkiPas(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_LISTU_KUPACA:
-                odgovor = ucitajListuKupaca(element.getAsJsonObject().get("parametar").getAsJsonObject());
+                odgovor = ucitajListuKupaca();
                 break;
             case Operacije.ZAPAMTI_KUPCA:
                 odgovor = zapamtiKupca(element.getAsJsonObject().get("parametar").getAsJsonObject());
@@ -427,7 +427,7 @@ public class KlijentskaNit extends Thread {
         return obj;
     }
 
-    private JsonObject ucitajListuKupaca(JsonObject parametar) {
+    private JsonObject ucitajListuKupaca() {
         Gson gson = new Gson();
         JsonObject obj = new JsonObject();
         try {
