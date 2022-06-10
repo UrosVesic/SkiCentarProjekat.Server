@@ -63,14 +63,14 @@ public class BrokerBP {
     }
 
     /**
-     * Cuva domenski objekat kao slog u bazi podatala
+     * Cuva domenski objekat kao slog u bazi podataka. Generise mu novi primarni kljuc.
      *
      * @param odo domenski objekat koji treba sacuvati
      * @throws Exception ukoliko dodje do greske prilikom uspostavljanja
      * konekcije ili kreiranja SQL statement-a, ili primarni kljuc nije uspesno
      * generisan
      */
-    public void zapamtiSlog(OpstiDomenskiObjekat odo) throws Exception {
+    public void zapamtiSlogGenerisiKljuc(OpstiDomenskiObjekat odo) throws Exception {
         String upit;
         konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
         try (Statement statement = konekcija.createStatement()) {
@@ -84,6 +84,25 @@ public class BrokerBP {
             } else {
                 throw new Exception("Neuspesno generisanje primarnog kljuca");
             }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+    
+    /**
+     * Cuva domenski objekat kao slog u bazi podataka.
+     *
+     * @param odo domenski objekat koji treba sacuvati
+     * @throws Exception ukoliko dodje do greske prilikom uspostavljanja
+     * konekcije ili kreiranja SQL statement-a
+     */
+    public void zapamtiSlog(OpstiDomenskiObjekat odo) throws Exception {
+        String upit;
+        konekcija = DbFabrikaKonekcije.getInstanca().getKonekcija();
+        try (Statement statement = konekcija.createStatement()) {
+            upit = "INSERT INTO " + odo.vratiImeTabeleZaKlasu()
+                    + "(" + odo.vratiImenaAtrubita() + ")" + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
+            statement.executeUpdate(upit);
         } catch (SQLException ex) {
             throw ex;
         }
