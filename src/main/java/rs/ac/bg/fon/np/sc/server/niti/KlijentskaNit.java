@@ -7,13 +7,17 @@ package rs.ac.bg.fon.np.sc.server.niti;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
+import rs.ac.bg.fon.np.sc.commonlib.dto.SkiCentarDto;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
@@ -22,11 +26,9 @@ import rs.ac.bg.fon.np.sc.commonlib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.commonlib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Zicara;
-import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Odgovor;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Operacije;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Posiljalac;
 import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Primalac;
-import rs.ac.bg.fon.np.sc.commonlib.komunikacija.Zahtev;
 import rs.ac.bg.fon.np.sc.server.kontroler.Kontroler;
 
 /**
@@ -48,7 +50,7 @@ public class KlijentskaNit extends Thread {
     public void run() {
         while (!socket.isClosed()) {
             try {
-                Zahtev zahtev = (Zahtev) new Primalac(socket).primi();
+                String zahtev = (String) new Primalac(socket).primi();
                 obradiZahtev(zahtev);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -65,439 +67,424 @@ public class KlijentskaNit extends Thread {
         }
     }
 
-    private void obradiZahtev(Zahtev zahtev) {
-        Odgovor odgovor = new Odgovor();
-        switch (zahtev.getOperacija()) {
+    private void obradiZahtev(String zahtev) {
+        Gson gson = new Gson();
+        JsonElement element = JsonParser.parseString(zahtev);
+        JsonObject odgovor = null;
+        switch (element.getAsJsonObject().get("operacija").getAsInt()) {
             case Operacije.PRIJAVI_SE:
-                odgovor = prijaviSe(zahtev);
+                odgovor = prijaviSe(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_LISTU_SKI_CENTARA:
-                odgovor = ucitajListuSkiCentara(zahtev);
+                odgovor = ucitajListuSkiCentara();
                 break;
             case Operacije.ZAPAMTI_SKI_KARTU:
-                odgovor = zapamtiSkiKartu(zahtev);
+                odgovor = zapamtiSkiKartu(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PRETRAZI_SKI_KARTE:
-                odgovor = pretraziSkiKarte(zahtev);
+                odgovor = pretraziSkiKarte(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.ZAPAMTI_STAZU:
-                odgovor = zapamtiStazu(zahtev);
+                odgovor = zapamtiStazu(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PRETRAZI_STAZE:
-                odgovor = pretraziStaze(zahtev);
+                odgovor = pretraziStaze(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_STAZU:
-                odgovor = ucitajStazu(zahtev);
+                odgovor = ucitajStazu(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PROMENI_STAZU:
-                odgovor = promeniStazu(zahtev);
+                odgovor = promeniStazu(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.ZAPAMTI_ZICARU:
-                odgovor = zapamtiZicaru(zahtev);
+                odgovor = zapamtiZicaru(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.ZAPAMTI_SKI_CENTAR:
-                odgovor = zapamtiSkiCentar(zahtev);
+                odgovor = zapamtiSkiCentar(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PRETRAZI_SKI_CENTAR:
-                odgovor = pretarziSkiCentar(zahtev);
+                odgovor = pretarziSkiCentar(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PROMENI_SKI_CENTAR:
-                odgovor = promeniSkiCentar(zahtev);
+                odgovor = promeniSkiCentar(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_LISTU_SKI_KARATA:
-                odgovor = ucitajListuSkiKarata(zahtev);
+                ucitajListuSkiKarata();
                 break;
             case Operacije.ZAPAMTI_SKI_PAS:
-                odgovor = zapamtiSkiPas(zahtev);
+                odgovor = zapamtiSkiPas(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PRETRAZI_SKI_PASOVE:
-                odgovor = pretraziSkiPasove(zahtev);
+                odgovor = pretraziSkiPasove(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_SKI_PAS:
-                odgovor = ucitajSkiPas(zahtev);
+                odgovor = ucitajSkiPas(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.PROMENI_SKI_PAS:
-                odgovor = promeniSkiPas(zahtev);
+                odgovor = promeniSkiPas(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_LISTU_KUPACA:
-                odgovor = ucitajListuKupaca(zahtev);
+                odgovor = ucitajListuKupaca(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.ZAPAMTI_KUPCA:
-                odgovor = zapamtiKupca(zahtev);
+                odgovor = zapamtiKupca(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.UCITAJ_SKI_CENTAR_DETALJNIJE:
-                odgovor = ucitajSkiCentarDetaljnije(zahtev);
+                odgovor = ucitajSkiCentarDetaljnije(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             case Operacije.ZAPAMTI_SKI_CENTAR_DETALJNIJE:
-                odgovor = zapamtiSkiCentarDetaljnije(zahtev);
+                odgovor = zapamtiSkiCentarDetaljnije(element.getAsJsonObject().get("parametar").getAsJsonObject());
                 break;
             default:
                 throw new AssertionError();
         }
-
-        new Posiljalac(socket).posalji(odgovor);
+        String jsonString = gson.toJson(odgovor);
+        new Posiljalac(socket).posalji(jsonString);
     }
 
-    private Odgovor prijaviSe(Zahtev zahtev) {
-        String objekat = zahtev.getParametar();
-        Korisnik korisnik = new Gson().fromJson(objekat, Korisnik.class);
-        Odgovor odgovor = new Odgovor();
+    private JsonObject prijaviSe(JsonObject parametar) {
+        JsonObject obj = new JsonObject();
+        Gson gson = new Gson();
+        Korisnik korisnik = gson.fromJson(parametar, Korisnik.class);
         try {
             korisnik = (Korisnik) Kontroler.getInstanca().prijaviSe(korisnik);
-            objekat = new Gson().toJson(korisnik);
-            odgovor.setRezultat(objekat);
+            obj = new JsonObject();
+            obj.add("rezultat", gson.toJsonTree(korisnik));
             trenutniKorisnik = korisnik;
             Kontroler.getInstanca().dodajKorisnikaUTabelu(trenutniKorisnik);
-            odgovor.setUspesno(true);
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             ex.printStackTrace();
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajListuSkiCentara(Zahtev zahtev) {
-        String rezultat;
-        Odgovor odgovor = new Odgovor();
+    private JsonObject ucitajListuSkiCentara() {
+        Gson gson = new Gson();
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuSkiCentara();
-            rezultat = new Gson().toJson(lista);
-            odgovor.setRezultat(rezultat);
-            odgovor.setUspesno(true);
+            obj = new JsonObject();
+            obj.add("rezultat", gson.toJsonTree(lista));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiSkiKartu(Zahtev zahtev) {
+    private JsonObject zapamtiSkiKartu(JsonObject jsonSkiKarta) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiKarta skiKarta = new Gson().fromJson(objekat, SkiKarta.class);
-        Odgovor odgovor = new Odgovor();
+        JsonObject obj = new JsonObject();
+        SkiKarta skiKarta = gson.fromJson(jsonSkiKarta, SkiKarta.class);
         try {
             Kontroler.getInstanca().zapamtiSkiKartuSO(skiKarta);
-            objekat = new Gson().toJson(skiKarta);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiKarta));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor pretraziSkiKarte(Zahtev zahtev) {
+    private JsonObject pretraziSkiKarte(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiKarta skiKarta = gson.fromJson(objekat, SkiKarta.class);
-        Odgovor odgovor = new Odgovor();
+        SkiKarta skiKarta = gson.fromJson(parametar, SkiKarta.class);
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiKarte(skiKarta);
-            objekat = new Gson().toJson(lista);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(lista));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiStazu(Zahtev zahtev) {
+    private JsonObject zapamtiStazu(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Staza staza = new Gson().fromJson(objekat, Staza.class);
-        Odgovor odgovor = new Odgovor();
+        Staza staza = new Gson().fromJson(parametar, Staza.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiStazu(staza);
-            objekat = new Gson().toJson(staza);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(staza));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor pretraziStaze(Zahtev zahtev) {
+    private JsonObject pretraziStaze(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
+
+        SkiCentar skiCentar = gson.fromJson(parametar, SkiCentar.class);
         Staza staza = new Staza();
         staza.setSkiCentar(skiCentar);
-        Odgovor odgovor = new Odgovor();
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziStaze(staza);
-            objekat = new Gson().toJson(lista);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(lista));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajStazu(Zahtev zahtev) {
+    private JsonObject ucitajStazu(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Staza staza = new Gson().fromJson(objekat, Staza.class);
-        Odgovor odgovor = new Odgovor();
+
+        Staza staza = new Gson().fromJson(parametar, Staza.class);
+        JsonObject obj = new JsonObject();
         try {
             staza = (Staza) Kontroler.getInstanca().ucitajStazu(staza);
-            objekat = new Gson().toJson(staza);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(staza));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor promeniStazu(Zahtev zahtev) {
+    private JsonObject promeniStazu(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Staza staza = new Gson().fromJson(objekat, Staza.class);
-        Odgovor odgovor = new Odgovor();
+
+        Staza staza = new Gson().fromJson(parametar, Staza.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().promeniStazu(staza);
-            objekat = new Gson().toJson(staza);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(staza));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiZicaru(Zahtev zahtev) {
+    private JsonObject zapamtiZicaru(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Zicara zicara = new Gson().fromJson(objekat, Zicara.class);
-        Odgovor odgovor = new Odgovor();
+
+        Zicara zicara = new Gson().fromJson(parametar, Zicara.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiZicaru(zicara);
-            objekat = new Gson().toJson(zicara);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(zicara));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiSkiCentar(Zahtev zahtev) {
+    private JsonObject zapamtiSkiCentar(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentar skiCentar = new Gson().fromJson(objekat, SkiCentar.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiCentar skiCentar = new Gson().fromJson(parametar, SkiCentar.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiSkiCentar(skiCentar);
-            objekat = new Gson().toJson(skiCentar);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiCentar));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor pretarziSkiCentar(Zahtev zahtev) {
+    private JsonObject pretarziSkiCentar(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentar skiCentar = gson.fromJson(objekat, SkiCentar.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiCentar skiCentar = gson.fromJson(parametar, SkiCentar.class);
+        JsonObject obj = new JsonObject();
         try {
             skiCentar = (SkiCentar) Kontroler.getInstanca().pretraziSkiCentar(skiCentar);
-            objekat = new Gson().toJson(skiCentar);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiCentar));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor promeniSkiCentar(Zahtev zahtev) {
+    private JsonObject promeniSkiCentar(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentar skiCentar = new Gson().fromJson(objekat, SkiCentar.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiCentar skiCentar = new Gson().fromJson(parametar, SkiCentar.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().promeniSkiCentar(skiCentar);
-            objekat = new Gson().toJson(skiCentar);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiCentar));
+
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajListuSkiKarata(Zahtev zahtev) {
-        String rezultat;
-        Odgovor odgovor = new Odgovor();
+    private JsonObject ucitajListuSkiKarata() {
+        Gson gson = new Gson();
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuSkiKarata();
-            rezultat = new Gson().toJson(lista);
-            odgovor.setRezultat(rezultat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(lista));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiSkiPas(Zahtev zahtev) {
+    private JsonObject zapamtiSkiPas(JsonObject parametar) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        String objekat = zahtev.getParametar();
-        SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiPas skiPas = new Gson().fromJson(parametar, SkiPas.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiSkiPas(skiPas);
-            objekat = gson.toJson(skiPas);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiPas));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor pretraziSkiPasove(Zahtev zahtev) {
+    private JsonObject pretraziSkiPasove(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Kupac kupac = gson.fromJson(objekat, Kupac.class);
+        Kupac kupac = gson.fromJson(parametar, Kupac.class);
         SkiPas skiPas = new SkiPas();
         skiPas.setKupac(kupac);
-        Odgovor odgovor = new Odgovor();
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().pretraziSkiPasove(skiPas);
-            objekat = new Gson().toJson(lista);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(lista));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajSkiPas(Zahtev zahtev) {
+    private JsonObject ucitajSkiPas(JsonObject parametar) {
         GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
         Gson gson = gsonBuilder.create();
-        String objekat = zahtev.getParametar();
-        SkiPas skiPas = gson.fromJson(objekat, SkiPas.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiPas skiPas = gson.fromJson(parametar, SkiPas.class);
+        JsonObject obj = new JsonObject();
         try {
             skiPas = (SkiPas) Kontroler.getInstanca().ucitajSkiPas(skiPas);
             gson = gsonBuilder.setDateFormat("yyyy-MM-dd").excludeFieldsWithoutExposeAnnotation().create();
-            objekat = gson.toJson(skiPas);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiPas));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    public Odgovor promeniSkiPas(Zahtev zahtev) {
+    private JsonObject promeniSkiPas(JsonObject parametar) {
         GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
         Gson gson = gsonBuilder.create();
-        String objekat = zahtev.getParametar();
-        SkiPas skiPas = new Gson().fromJson(objekat, SkiPas.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiPas skiPas = new Gson().fromJson(parametar, SkiPas.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().promeniSkiPas(skiPas);
             gson = gsonBuilder.setDateFormat("MMM dd, yyyy").excludeFieldsWithoutExposeAnnotation().create();
-            objekat = gson.toJson(skiPas);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiPas));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajListuKupaca(Zahtev zahtev) {
-        String rezultat;
-        Odgovor odgovor = new Odgovor();
+    private JsonObject ucitajListuKupaca(JsonObject parametar) {
+        Gson gson = new Gson();
+        JsonObject obj = new JsonObject();
         try {
             List<OpstiDomenskiObjekat> lista = Kontroler.getInstanca().ucitajListuKupaca();
-            rezultat = new Gson().toJson(lista);
-            odgovor.setRezultat(rezultat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(lista));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiKupca(Zahtev zahtev) {
+    private JsonObject zapamtiKupca(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        Kupac kupac = new Gson().fromJson(objekat, Kupac.class);
-        Odgovor odgovor = new Odgovor();
+        Kupac kupac = new Gson().fromJson(parametar, Kupac.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiKupca(kupac);
-            objekat = new Gson().toJson(kupac);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(kupac));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor ucitajSkiCentarDetaljnije(Zahtev zahtev) {
+    private JsonObject ucitajSkiCentarDetaljnije(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentarDto skiCentarDto = new Gson().fromJson(objekat, SkiCentarDto.class);
-        Odgovor odgovor = new Odgovor();
+
+        SkiCentarDto skiCentarDto = new Gson().fromJson(parametar, SkiCentarDto.class);
+        JsonObject obj = new JsonObject();
         try {
             SkiCentarDto dto = Kontroler.getInstanca().ucitajSkiCentar(skiCentarDto);
-            objekat = new Gson().toJson(dto);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(dto));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
-    private Odgovor zapamtiSkiCentarDetaljnije(Zahtev zahtev) {
+    private JsonObject zapamtiSkiCentarDetaljnije(JsonObject parametar) {
         Gson gson = new Gson();
-        String objekat = zahtev.getParametar();
-        SkiCentarDto skiCentarDto = new Gson().fromJson(objekat, SkiCentarDto.class);
-        Odgovor odgovor = new Odgovor();
+        SkiCentarDto skiCentarDto = new Gson().fromJson(parametar, SkiCentarDto.class);
+        JsonObject obj = new JsonObject();
         try {
             Kontroler.getInstanca().zapamtiSkiCentarDet(skiCentarDto);
-            objekat = new Gson().toJson(skiCentarDto);
-            odgovor.setRezultat(objekat);
-            odgovor.setUspesno(true);
+            obj.add("rezultat", gson.toJsonTree(skiCentarDto));
+            obj.addProperty("uspesno", true);
         } catch (Exception ex) {
-            odgovor.setUspesno(false);
-            odgovor.setException(ex);
+            obj.addProperty("uspesno", false);
+            obj.add("exception", gson.toJsonTree(ex));
         }
-        return odgovor;
+        return obj;
     }
 
 }
