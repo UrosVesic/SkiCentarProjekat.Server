@@ -39,7 +39,7 @@ public class DbFabrikaKonekcije {
             throw new Exception("Neuspensa inicijalizacija connection pool data source-a");
         }
     }
-
+    
     /**
      * Pravi novu ili vraca vec postojecu instancu klase DbFarbrikaKonekcije.
      * Predstavlja implementaciju Singleton paterna
