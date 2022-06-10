@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.List;
-import rs.ac.bg.fon.np.sc.commonLib.dto.SkiCentarDto;
+import rs.ac.bg.fon.np.sc.commonlib.dto.SkiCentarDto;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonlib.domen.Korisnik;
 import rs.ac.bg.fon.np.sc.commonlib.domen.OpstiDomenskiObjekat;
