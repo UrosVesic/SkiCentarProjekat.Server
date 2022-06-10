@@ -28,7 +28,7 @@ public class ZapamtiZicaruSO extends OpstaSO {
      */
     @Override
     public void izvrsiOperaciju() throws Exception {
-        b.zapamtiSlog(odo);
+        b.zapamtiSlogGenerisiKljuc(odo);
     }
 
     @Override

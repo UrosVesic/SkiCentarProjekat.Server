@@ -44,12 +44,12 @@ public class ZapamtiSkiCentarDetaljnije extends OpstaSO {
         List<Staza> staze = dto.getStaze();
         List<Zicara> zicare = dto.getZicare();
 
-        b.zapamtiSlog(sc);
+        b.promeniSlog(sc);
         for (Staza staza : staze) {
             if (b.daLiPostojiSlog(staza)) {
                 b.promeniSlog(staza);
             } else {
-                b.zapamtiSlog(staza);
+                b.zapamtiSlogGenerisiKljuc(staza);
             }
         }
         for (OpstiDomenskiObjekat stazaIzBaze : stazeIzBaze) {
@@ -61,7 +61,7 @@ public class ZapamtiSkiCentarDetaljnije extends OpstaSO {
             if (b.daLiPostojiSlog(zicara)) {
                 b.promeniSlog(zicara);
             } else {
-                b.zapamtiSlog(zicara);
+                b.zapamtiSlogGenerisiKljuc(zicara);
             }
         }
         for (OpstiDomenskiObjekat zicaraIzBaze : zicareIzBaze) {

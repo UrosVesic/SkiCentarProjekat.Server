@@ -34,7 +34,7 @@ public class ZapamtiSkiPasSO extends OpstaSO {
     @Override
     public void izvrsiOperaciju() throws Exception {
         SkiPas skiPas = (SkiPas) odo;
-        b.zapamtiSlog(skiPas);
+        b.zapamtiSlogGenerisiKljuc(skiPas);
         long id = 1;
         for (StavkaSkiPasa stavkaSkiPasa : skiPas.getStavkeSkiPasa()) {
             stavkaSkiPasa.setSkiPas(skiPas);
