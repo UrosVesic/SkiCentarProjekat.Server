@@ -7,6 +7,7 @@ package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
@@ -41,7 +42,7 @@ public class PretraziSkiPasoveSO extends OpstaSO {
 
     @Override
     public void proveriPreduslove() throws ValidationException {
-        Kupac k = (Kupac) odo;
+        Kupac k = ((SkiPas) odo).getKupac();
         Validator.startValidation().validateNotNullOrEmpty(k.getIme(), "Niste uneli ime za pretragu.").throwIfInvalide();
     }
 
