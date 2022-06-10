@@ -156,7 +156,7 @@ public class KlijentskaNit extends Thread {
         } catch (Exception ex) {
             ex.printStackTrace();
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -171,7 +171,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -186,7 +186,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -201,7 +201,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -217,7 +217,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -236,7 +236,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -253,7 +253,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -270,7 +270,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -287,7 +287,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -304,7 +304,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -321,7 +321,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -338,7 +338,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -352,7 +352,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -369,7 +369,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -386,7 +386,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -404,7 +404,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -422,7 +422,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -436,7 +436,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -451,7 +451,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -467,7 +467,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
@@ -482,7 +482,7 @@ public class KlijentskaNit extends Thread {
             obj.addProperty("uspesno", true);
         } catch (Exception ex) {
             obj.addProperty("uspesno", false);
-            obj.add("exception", gson.toJsonTree(ex));
+            obj.addProperty("exception", ex.getMessage());
         }
         return obj;
     }
