@@ -45,7 +45,7 @@ public class ZapamtiSkiPasSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws ValidationException {
+    public void proveriPreduslove() throws ValidationException {
         SkiPas skiPas = (SkiPas) odo;
         Validator.startValidation().validateSeasonFormat(skiPas.getSezona(), "Nepravilan format sezone").throwIfInvalide()
                 .validateNotNullOrEmpty(skiPas.getStavkeSkiPasa(), "Ne moze se sacuvati ski pas bez stavki")

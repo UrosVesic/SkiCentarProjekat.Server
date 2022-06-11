@@ -32,7 +32,7 @@ public class PrijaviSeSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() {
+    public void proveriPreduslove() {
     }
 
 }

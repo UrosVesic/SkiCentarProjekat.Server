@@ -52,7 +52,7 @@ public class UcitajSkiCentarSO extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws ValidationException {
+    public void proveriPreduslove() throws ValidationException {
     }
 
 }
