@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
@@ -14,8 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -48,7 +51,6 @@ public class PretraziSkiPasoveSOTest extends OpstaSOTest {
 
         testSO.izvrsiOperaciju();
 
-
         ArgumentCaptor<SkiPas> skiPasArgumentCaptor
                 = ArgumentCaptor.forClass(SkiPas.class);
         Mockito.verify(brokerBP)
@@ -68,6 +70,27 @@ public class PretraziSkiPasoveSOTest extends OpstaSOTest {
                 .isInstanceOf(Exception.class)
                 .hasMessage("Ne postoji ski pas za zadatog kupca");
 
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException, Exception {
+        SkiPas sp = new SkiPas(1, BigDecimal.ONE, new Kupac(1, "", "Uros", "Vesic"), null, null, null);
+        testSO.setOdo(sp);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPredusloveGreskaPrazanTest() throws ValidationException {
+        SkiPas sp = new SkiPas(1, BigDecimal.ONE, new Kupac(1, "", "", ""), null, null, null);
+        testSO.setOdo(sp);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli ime za pretragu.");
+    }
+
+    @Test
+    public void proveriPredusloveNullPrazanTest() throws ValidationException {
+        SkiPas sp = new SkiPas(1, BigDecimal.ONE, new Kupac(1, "", null, null), null, null, null);
+        testSO.setOdo(sp);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli ime za pretragu.");
     }
 
 }

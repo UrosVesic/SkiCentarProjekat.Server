@@ -7,7 +7,10 @@ package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,7 @@ import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonLib.domen.StavkaSkiPasa;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
  *
@@ -146,6 +150,56 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
         Mockito.lenient().when(brokerBP.pronadjiSlogove(stavka)).thenThrow(Exception.class);
 
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        List<StavkaSkiPasa> stavke = new ArrayList<>();
+        stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
+        skiPas.setStavkeSkiPasa(stavke);
+        testSO.setOdo(skiPas);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPreduslovePogresanFormatSezoneTest() throws ValidationException {
+        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021-2022", null);
+        List<StavkaSkiPasa> stavke = new ArrayList<>();
+        stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
+        skiPas.setStavkeSkiPasa(stavke);
+        testSO.setOdo(skiPas);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Nepravilan format sezone");
+    }
+
+    @Test
+    public void proveriPredusloveNemaStavki() {
+        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        testSO.setOdo(skiPas);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Ne moze se sacuvati ski pas bez stavki");
+    }
+
+    @Test
+    public void proveriPreduslovePogresnaSezona() {
+        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2020/2021", null);
+        List<StavkaSkiPasa> stavke = new ArrayList<>();
+        stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
+        skiPas.setStavkeSkiPasa(stavke);
+        testSO.setOdo(skiPas);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Datum izdavanja ski pasa nije u navedenoj sezoni");
+    }
+
+    @Test
+    public void proveriPreduslovePogresanDatumStavke() {
+        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        List<StavkaSkiPasa> stavke = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2019, 1, 1);
+        StavkaSkiPasa stavka = new StavkaSkiPasa(skiPas, 1, cal.getTime());
+        stavke.add(stavka);
+        skiPas.setStavkeSkiPasa(stavke);
+        testSO.setOdo(skiPas);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Stavka " + stavka.getRedniBroj() + ". nije u sezoni za koju se izdaje ski pas");
     }
 
 }

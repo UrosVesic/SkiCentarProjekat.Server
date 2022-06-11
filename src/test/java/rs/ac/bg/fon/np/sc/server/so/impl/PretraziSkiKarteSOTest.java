@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +18,8 @@ import rs.ac.bg.fon.np.sc.commonLib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import rs.ac.bg.fon.np.sc.commonLib.domen.VrstaSkiKarte;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
  *
@@ -60,7 +63,27 @@ public class PretraziSkiKarteSOTest extends OpstaSOTest {
 
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class)
                 .hasMessage("Ne postoji nijedna ski karta koja ispunjava uslov");
+    }
 
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        SkiKarta sk = new SkiKarta(0, VrstaSkiKarte.TRODNEVNA, BigDecimal.TEN, null);
+        testSO.setOdo(sk);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPredusloveCenaNulaTest() throws ValidationException {
+        SkiKarta sk = new SkiKarta(0, VrstaSkiKarte.TRODNEVNA, BigDecimal.ZERO, null);
+        testSO.setOdo(sk);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Cena mora biti veca od 0");
+    }
+
+    @Test
+    public void proveriPredusloveCenaNullTest() throws ValidationException {
+        SkiKarta sk = new SkiKarta(0, VrstaSkiKarte.TRODNEVNA, null, null);
+        testSO.setOdo(sk);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli cenu za pretragu");
     }
 
 }
