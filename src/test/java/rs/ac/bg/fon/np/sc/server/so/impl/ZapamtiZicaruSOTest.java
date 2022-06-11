@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -38,14 +39,28 @@ public class ZapamtiZicaruSOTest extends OpstaSOTest {
         testSO.izvrsiOperaciju();
         ArgumentCaptor<Zicara> captor
                 = ArgumentCaptor.forClass(Zicara.class);
-        Mockito.verify(brokerBP).zapamtiSlog(captor.capture());
+        Mockito.verify(brokerBP).zapamtiSlogGenerisiKljuc(captor.capture());
         Assertions.assertThat(captor.getValue()).isEqualTo(zicara);
     }
 
     @Test
     public void testIzvrsiOperacijuBrokerException() throws Exception {
         Zicara zicara = new Zicara();
-        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlog(zicara);
+        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlogGenerisiKljuc(zicara);
         Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        Zicara z = new Zicara(1, null, null, 2000, true, null);
+        testSO.setOdo(z);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPredusloveFailTest() throws ValidationException {
+        Zicara z = new Zicara(1, null, null, 0, true, null);
+        testSO.setOdo(z);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Kapacitet mora biti veci od 0");
     }
 }

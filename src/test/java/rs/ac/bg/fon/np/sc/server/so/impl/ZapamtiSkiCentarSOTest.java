@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -39,15 +40,29 @@ public class ZapamtiSkiCentarSOTest extends OpstaSOTest {
         testSO.izvrsiOperaciju();
         ArgumentCaptor<SkiCentar> captor
                 = ArgumentCaptor.forClass(SkiCentar.class);
-        Mockito.verify(brokerBP).zapamtiSlog(captor.capture());
+        Mockito.verify(brokerBP).zapamtiSlogGenerisiKljuc(captor.capture());
         Assertions.assertThat(captor.getValue()).isEqualTo(skiCentar);
     }
 
     @Test
     public void testIzvrsiOperacijuBrokerException() throws Exception {
         SkiCentar skiCentar = new SkiCentar();
-        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlog(skiCentar);
+        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlogGenerisiKljuc(skiCentar);
         Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, null, null, "10-12");
+        testSO.setOdo(sc);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPreduslovePogresanFormatRMTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, null, null, "10_12");
+        testSO.setOdo(sc);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Pogresan format radnog vremena");
     }
 
 }

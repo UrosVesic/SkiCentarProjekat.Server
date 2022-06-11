@@ -17,6 +17,8 @@ import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
  *
@@ -56,6 +58,27 @@ public class PretraziStazeSOTest extends OpstaSOTest {
     @Test
     public void testIzvrsiOperacijuNePostojiStaza() {
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class).hasMessage("Nisu pronadjene staze");
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException, Exception {
+        Staza staza = new Staza(1, "", "", "", new SkiCentar(1, "Kop", "", ""));
+        testSO.setOdo(staza);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPredusloveGreskaPrazanTest() throws ValidationException {
+        Staza staza = new Staza(1, "", "", "", new SkiCentar(1, "", "", ""));
+        testSO.setOdo(staza);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli naziv ski centra za pretragu");
+    }
+
+    @Test
+    public void proveriPredusloveNullPrazanTest() throws ValidationException {
+        Staza staza = new Staza(1, "", "", "", new SkiCentar(1, null, "", ""));
+        testSO.setOdo(staza);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli naziv ski centra za pretragu");
     }
 
 }

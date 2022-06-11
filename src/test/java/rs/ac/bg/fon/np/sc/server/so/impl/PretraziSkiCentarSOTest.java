@@ -14,6 +14,7 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
  *
@@ -50,6 +51,27 @@ public class PretraziSkiCentarSOTest extends OpstaSOTest {
     public void testIzvrsiOperacijuNePostojiSkiCentar() throws Exception {
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
 
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, "Kop", "", "");
+        testSO.setOdo(sc);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPreduslovePrazanNazivTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, "", "", "");
+        testSO.setOdo(sc);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli naziv za pretragu" );
+    }
+
+    @Test
+    public void proveriPredusloveNullNazivTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, null, "", "");
+        testSO.setOdo(sc);
+        assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Niste uneli naziv za pretragu");
     }
 
 }

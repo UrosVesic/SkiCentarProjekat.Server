@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
  *
@@ -48,5 +50,19 @@ public class PromeniSkiCentarSOTest extends OpstaSOTest {
         SkiCentar skiCentar = new SkiCentar();
         Mockito.doThrow(Exception.class).when(brokerBP).promeniSlog(skiCentar);
         assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, null, null, "10-12");
+        testSO.setOdo(sc);
+        testSO.proveriPreduslove();
+    }
+
+    @Test
+    public void proveriPreduslovePogresanFormatRMTest() throws ValidationException {
+        SkiCentar sc = new SkiCentar(1, null, null, "10_12");
+        testSO.setOdo(sc);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Pogresan format radnog vremena");
     }
 }
