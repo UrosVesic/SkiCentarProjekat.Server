@@ -36,6 +36,10 @@ public class ZapamtiSkiCentarDetaljnije extends OpstaSO {
         return dto;
     }
 
+    public void setDto(SkiCentarDto dto) {
+        this.dto = dto;
+    }
+
     @Override
     public void izvrsiOperaciju() throws Exception {
         SkiCentar sc = dto.getSkiCentar();
@@ -72,7 +76,7 @@ public class ZapamtiSkiCentarDetaljnije extends OpstaSO {
     }
 
     @Override
-    protected void proveriPreduslove() throws ValidationException {
+    public void proveriPreduslove() throws ValidationException {
     }
 
 }
