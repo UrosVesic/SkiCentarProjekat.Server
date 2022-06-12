@@ -39,14 +39,14 @@ public class ZapamtiStazuSOTest extends OpstaSOTest {
         testSO.izvrsiOperaciju();
         ArgumentCaptor<Staza> captor
                 = ArgumentCaptor.forClass(Staza.class);
-        Mockito.verify(brokerBP).zapamtiSlog(captor.capture());
+        Mockito.verify(brokerBP).zapamtiSlogGenerisiKljuc(captor.capture());
         Assertions.assertThat(captor.getValue()).isEqualTo(staza);
     }
 
     @Test
     public void testIzvrsiOperacijuBrokerException() throws Exception {
         Staza staza = new Staza();
-        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlog(staza);
+        Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlogGenerisiKljuc(staza);
         Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
     }
 }
