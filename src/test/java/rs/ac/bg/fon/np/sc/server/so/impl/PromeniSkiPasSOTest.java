@@ -25,6 +25,7 @@ import rs.ac.bg.fon.np.sc.commonLib.domen.SkiPas;
 import rs.ac.bg.fon.np.sc.commonLib.domen.StavkaSkiPasa;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 import static org.assertj.core.api.Assertions.*;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 
 /**
@@ -154,7 +155,7 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPredusloveTest() throws ValidationException {
-        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        skiPas = new SkiPas(1, BigDecimal.ONE, new Kupac(), new Date(), "2021/2022", null);
         List<StavkaSkiPasa> stavke = new ArrayList<>();
         stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
         skiPas.setStavkeSkiPasa(stavke);
@@ -164,7 +165,7 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPreduslovePogresanFormatSezoneTest() throws ValidationException {
-        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021-2022", null);
+        skiPas = new SkiPas(1, BigDecimal.ONE, new Kupac(), new Date(), "2021-2022", null);
         List<StavkaSkiPasa> stavke = new ArrayList<>();
         stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
         skiPas.setStavkeSkiPasa(stavke);
@@ -174,14 +175,14 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPredusloveNemaStavki() {
-        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        skiPas = new SkiPas(1, BigDecimal.ONE, new Kupac(), new Date(), "2021/2022", new ArrayList<>());
         testSO.setOdo(skiPas);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Ne moze se sacuvati ski pas bez stavki");
     }
 
     @Test
     public void proveriPreduslovePogresnaSezona() {
-        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2020/2021", null);
+        skiPas = new SkiPas(1, BigDecimal.ONE, new Kupac(), new Date(), "2020/2021", new ArrayList<>());
         List<StavkaSkiPasa> stavke = new ArrayList<>();
         stavke.add(new StavkaSkiPasa(skiPas, 1, new Date()));
         skiPas.setStavkeSkiPasa(stavke);
@@ -191,7 +192,7 @@ public class PromeniSkiPasSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPreduslovePogresanDatumStavke() {
-        skiPas = new SkiPas(1, BigDecimal.ONE, null, new Date(), "2021/2022", null);
+        skiPas = new SkiPas(1, BigDecimal.ONE, new Kupac(), new Date(), "2021/2022", new ArrayList<>());
         List<StavkaSkiPasa> stavke = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         cal.set(2019, 1, 1);

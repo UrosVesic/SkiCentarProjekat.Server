@@ -41,7 +41,7 @@ public class ZapamtiSkiCentarDetaljnijeTest extends OpstaSOTest {
     @Override
     @Test
     public void testIzvrsiOperaciju() throws Exception {
-        SkiCentar sc = new SkiCentar(123);
+        SkiCentar sc = new SkiCentar(123, "SC", "Pl", "11-15");
 
         Staza s1 = new Staza(1);
         Staza s2 = new Staza(2);
@@ -53,8 +53,11 @@ public class ZapamtiSkiCentarDetaljnijeTest extends OpstaSOTest {
         staze.add(s2);
 
         Zicara z1 = new Zicara(1, "Z1");
+        z1.setKapacitet(1000);
         Zicara z2 = new Zicara(2, "Z2");
+        z2.setKapacitet(1000);
         Zicara z3 = new Zicara(3, "Z3");
+        z3.setKapacitet(1000);
         List<Zicara> zicare = new ArrayList<>();
         List<OpstiDomenskiObjekat> zicareIzBaze = new ArrayList<>();
         zicareIzBaze.add(z3);

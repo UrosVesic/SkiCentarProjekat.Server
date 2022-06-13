@@ -54,14 +54,14 @@ public class PromeniSkiCentarSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPredusloveTest() throws ValidationException {
-        SkiCentar sc = new SkiCentar(1, null, null, "10-12");
+        SkiCentar sc = new SkiCentar(1, "SC", "PL", "10-12");
         testSO.setOdo(sc);
         testSO.proveriPreduslove();
     }
 
     @Test
     public void proveriPreduslovePogresanFormatRMTest() throws ValidationException {
-        SkiCentar sc = new SkiCentar(1, null, null, "10_12");
+        SkiCentar sc = new SkiCentar(1, "SC", "Pl", "10_12");
         testSO.setOdo(sc);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Pogresan format radnog vremena");
     }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
@@ -52,14 +53,14 @@ public class ZapamtiZicaruSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPredusloveTest() throws ValidationException {
-        Zicara z = new Zicara(1, null, null, 2000, true, null);
+        Zicara z = new Zicara(1, "ZC", "11-12", 2000, true, new SkiCentar());
         testSO.setOdo(z);
         testSO.proveriPreduslove();
     }
 
     @Test
     public void proveriPredusloveFailTest() throws ValidationException {
-        Zicara z = new Zicara(1, null, null, 0, true, null);
+        Zicara z = new Zicara(1, "ZIC", "11-12", 0, true, new SkiCentar());
         testSO.setOdo(z);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Kapacitet mora biti veci od 0");
     }

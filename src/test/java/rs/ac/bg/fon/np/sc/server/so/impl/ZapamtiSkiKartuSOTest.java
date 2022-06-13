@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiKarta;
 import rs.ac.bg.fon.np.sc.commonLib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
@@ -54,14 +55,14 @@ public class ZapamtiSkiKartuSOTest extends OpstaSOTest {
 
     @Test
     public void proveriPredusloveTest() throws ValidationException {
-        SkiKarta sk = new SkiKarta(1, VrstaSkiKarte.TRODNEVNA, BigDecimal.TEN, null);
+        SkiKarta sk = new SkiKarta(1, VrstaSkiKarte.TRODNEVNA, BigDecimal.TEN, new SkiCentar());
         testSO.setOdo(sk);
         testSO.proveriPreduslove();
     }
 
     @Test
     public void proveriPreduslovePogresanFormatSezoneTest() throws ValidationException {
-        SkiKarta sk = new SkiKarta(1, VrstaSkiKarte.TRODNEVNA, BigDecimal.ZERO, null);
+        SkiKarta sk = new SkiKarta(1, VrstaSkiKarte.TRODNEVNA, BigDecimal.ZERO, new SkiCentar());
         testSO.setOdo(sk);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Cena mora biti veca od 0");
     }
