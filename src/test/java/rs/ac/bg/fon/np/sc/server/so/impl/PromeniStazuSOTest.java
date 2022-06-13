@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
+import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -53,5 +55,15 @@ public class PromeniStazuSOTest extends OpstaSOTest {
         testSO.setOdo(staza);
         testSO.izvrsiOperaciju();
         Mockito.verify(brokerBP).promeniSlog(staza);
+    }
+
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        Staza s = new Staza();
+        testSO.setOdo(s);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje brojStaze je obavezno\n"
+                + "Polje nazivStaze je obavezno\n"
+                + "Polje tipStaze je obavezno\n"
+                + "Polje skiCentar je obavezno");
     }
 }

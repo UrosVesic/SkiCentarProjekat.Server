@@ -14,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonLib.domen.SkiKarta;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonLib.domen.VrstaSkiKarte;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
@@ -66,4 +67,14 @@ public class ZapamtiSkiKartuSOTest extends OpstaSOTest {
         testSO.setOdo(sk);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Cena mora biti veca od 0");
     }
+
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        SkiKarta sk = new SkiKarta();
+        testSO.setOdo(sk);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje vrstaSkiKarte je obavezno\n"
+                + "Polje cenaSkiKarte je obavezno\n"
+                + "Polje skiCentar je obavezno");
+    }
+
 }

@@ -65,4 +65,13 @@ public class ZapamtiSkiCentarSOTest extends OpstaSOTest {
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Pogresan format radnog vremena");
     }
 
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        SkiCentar sc = new SkiCentar();
+        testSO.setOdo(sc);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje nazivSkiCentra je obavezno\n"
+                + "Polje nazivPlanine je obavezno\n"
+                + "Polje radnoVreme je obavezno");
+    }
+
 }

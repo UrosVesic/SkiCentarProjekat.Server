@@ -129,4 +129,15 @@ public class ZapamtiSkiPasSOTest extends OpstaSOTest {
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Stavka " + stavka.getRedniBroj() + ". nije u sezoni za koju se izdaje ski pas");
     }
 
+    @Test
+    public void proveriPredusloveNullIPraznaPolja() {
+        skiPas = new SkiPas(1, null, null, null, null, new ArrayList<>());
+        testSO.setOdo(skiPas);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class)
+                .hasMessage("Polje ukupnaCena je obavezno\n"
+                        + "Polje kupac je obavezno\n"
+                        + "Polje datumIzdavanja je obavezno\n"
+                        + "Polje sezona je obavezno");
+    }
+
 }

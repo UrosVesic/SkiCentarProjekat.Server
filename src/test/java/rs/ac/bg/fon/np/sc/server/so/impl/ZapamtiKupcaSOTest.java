@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Kupac;
 import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -47,6 +48,15 @@ public class ZapamtiKupcaSOTest extends OpstaSOTest {
     public void testIzvrsiOperacijuBrokerException() throws Exception {
         Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlogGenerisiKljuc(new Kupac(1));
         Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        Kupac k = new Kupac();
+        testSO.setOdo(k);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje brojLK je obavezno\n"
+                + "Polje ime je obavezno\n"
+                + "Polje prezime je obavezno");
     }
 
 }

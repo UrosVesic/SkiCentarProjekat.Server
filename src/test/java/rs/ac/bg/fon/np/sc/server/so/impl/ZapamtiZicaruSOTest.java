@@ -64,4 +64,13 @@ public class ZapamtiZicaruSOTest extends OpstaSOTest {
         testSO.setOdo(z);
         Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Kapacitet mora biti veci od 0");
     }
+
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        Zicara z = new Zicara(1, null, null, 123, true, null);
+        testSO.setOdo(z);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje nazivZicare je obavezno\n"
+                + "Polje radnoVreme je obavezno\n"
+                + "Polje skiCentar je obavezno");
+    }
 }

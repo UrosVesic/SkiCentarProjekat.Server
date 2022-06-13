@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSOTest;
 
 /**
@@ -48,5 +50,15 @@ public class ZapamtiStazuSOTest extends OpstaSOTest {
         Staza staza = new Staza();
         Mockito.doThrow(Exception.class).when(brokerBP).zapamtiSlogGenerisiKljuc(staza);
         Assertions.assertThatThrownBy(() -> testSO.izvrsiOperaciju()).isInstanceOf(Exception.class);
+    }
+
+    @Test
+    public void proveriPredusloveNullPraznaPolja() {
+        Staza s = new Staza();
+        testSO.setOdo(s);
+        Assertions.assertThatThrownBy(() -> testSO.proveriPreduslove()).isInstanceOf(ValidationException.class).hasMessage("Polje brojStaze je obavezno\n"
+                + "Polje nazivStaze je obavezno\n"
+                + "Polje tipStaze je obavezno\n"
+                + "Polje skiCentar je obavezno");
     }
 }
