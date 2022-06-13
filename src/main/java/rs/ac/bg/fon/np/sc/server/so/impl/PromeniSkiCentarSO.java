@@ -13,7 +13,9 @@ import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 
 /**
- * Klasa koja predstavlja sistemsku operaciju promena ski centra. Nasledjuje klasu OpstaSO.
+ * Klasa koja predstavlja sistemsku operaciju promena ski centra. Nasledjuje
+ * klasu OpstaSO.
+ *
  * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
@@ -22,8 +24,10 @@ public class PromeniSkiCentarSO extends OpstaSO {
     public PromeniSkiCentarSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
+
     /**
      * Izvrsava sistemsku operaciju - menja slog u bazi podataka
+     *
      * @throws Exception ako nije moguce promeniti slog u bazi
      */
     @Override
@@ -34,7 +38,7 @@ public class PromeniSkiCentarSO extends OpstaSO {
     @Override
     public void proveriPreduslove() throws ValidationException {
         SkiCentar sc = (SkiCentar) odo;
-        Validator.startValidation().validateWorkingHoursFormat(sc.getRadnoVreme(), "Pogresan format radnog vremena").throwIfInvalide();
+        Validator.startValidation().validateFieldsNotNullOrEmpty(sc).validateWorkingHoursFormat(sc.getRadnoVreme(), "Pogresan format radnog vremena").throwIfInvalide();
     }
 
 }

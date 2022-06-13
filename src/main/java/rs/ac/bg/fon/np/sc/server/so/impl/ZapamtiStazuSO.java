@@ -6,12 +6,16 @@
 package rs.ac.bg.fon.np.sc.server.so.impl;
 
 import rs.ac.bg.fon.np.sc.commonLib.domen.OpstiDomenskiObjekat;
+import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
 /**
- * Klasa koja predstavlja sistemsku operaciju cuvanje staze. Nasledjuje klasu OpstaSO.
+ * Klasa koja predstavlja sistemsku operaciju cuvanje staze. Nasledjuje klasu
+ * OpstaSO.
+ *
  * @see rs.ac.bg.fon.np.sc.server.so.OpstaSO
  * @author UrosVesic
  */
@@ -20,8 +24,10 @@ public class ZapamtiStazuSO extends OpstaSO {
     public ZapamtiStazuSO(BrokerBP b, OpstiDomenskiObjekat odo) {
         super(b, odo);
     }
+
     /**
      * Izvrsava sistemsku operaciju - pamti kupca u bazi podataka
+     *
      * @throws Exception ako nije moguce zapamtiti stazu
      */
     @Override
@@ -30,7 +36,9 @@ public class ZapamtiStazuSO extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove(){
+    public void proveriPreduslove() throws ValidationException {
+        Staza s = (Staza) odo;
+        Validator.startValidation().validateFieldsNotNullOrEmpty(s).throwIfInvalide();
     }
 
 }

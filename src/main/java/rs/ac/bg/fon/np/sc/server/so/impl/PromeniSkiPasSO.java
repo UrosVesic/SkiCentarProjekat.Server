@@ -65,7 +65,7 @@ public class PromeniSkiPasSO extends OpstaSO {
     @Override
     public void proveriPreduslove() throws ValidationException {
         SkiPas skiPas = (SkiPas) odo;
-        Validator.startValidation().validateSeasonFormat(skiPas.getSezona(), "Nepravilan format sezone").throwIfInvalide()
+        Validator.startValidation().validateFieldsNotNullOrEmpty(skiPas).validateSeasonFormat(skiPas.getSezona(), "Nepravilan format sezone").throwIfInvalide()
                 .validateNotNullOrEmpty(skiPas.getStavkeSkiPasa(), "Ne moze se sacuvati ski pas bez stavki")
                 .validateIfDateIsInSeason(skiPas.getDatumIzdavanja(), skiPas.getSezona(), "Datum izdavanja ski pasa nije u navedenoj sezoni")
                 .throwIfInvalide();

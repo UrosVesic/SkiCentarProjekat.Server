@@ -12,6 +12,8 @@ import rs.ac.bg.fon.np.sc.commonLib.domen.SkiCentar;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Staza;
 import rs.ac.bg.fon.np.sc.commonLib.domen.Zicara;
 import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationException;
+import rs.ac.bg.fon.np.sc.commonLib.validator.ValidationRuntimeException;
+import rs.ac.bg.fon.np.sc.commonLib.validator.Validator;
 import rs.ac.bg.fon.np.sc.server.db.BrokerBP;
 import rs.ac.bg.fon.np.sc.server.so.OpstaSO;
 
@@ -76,7 +78,13 @@ public class ZapamtiSkiCentarDetaljnije extends OpstaSO {
     }
 
     @Override
-    public void proveriPreduslove() throws ValidationException {
+    public void proveriPreduslove() throws ValidationException, ValidationRuntimeException {
+        Validator.startValidation().validateWorkingHoursFormat(dto.getSkiCentar().getRadnoVreme(), "Pogresan format radnog vremena ski centra").validateFieldsNotNullOrEmpty(dto.getSkiCentar());
+        dto.getZicare().forEach((zicara) -> {
+            Validator.startValidation()
+                    .validateWorkingHoursFormat(zicara.getRadnoVreme(), "Pogresan format radnog vremena kod zicare " + zicara.getNazivZicare())
+                    .validateGreaterThanZero(zicara.getKapacitet(), "Kapacitet mora biti veci od 0 kod zicare " + zicara.getNazivZicare()).throwIfInvalideRuntime();
+        });
     }
 
 }
